@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 
 dotenv.config({ path: "./config.env" });
 
-const pool = mysql.createPool({
+let pool = mysql.createPool({
   host: "localhost",
   user: process.env.DB_USERNAME,
   database: process.env.DB,
@@ -11,5 +11,5 @@ const pool = mysql.createPool({
   connectionLimit: 10,
 });
 console.log("database connected");
-
+pool = pool.promise();
 module.exports = pool;
