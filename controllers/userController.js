@@ -1,7 +1,11 @@
 const pool = require("../db");
 
 exports.getAllUsers = async (req, res) => {
-  const query = "SELECT COUNT(*) FROM users";
-  const results = await pool.query(query);
-  console.log(results[0]);
+  const query = "SELECT * FROM users";
+  const users = await pool.execute(query);
+
+  res.status(200).json({
+    message: "successful",
+    data: users[0],
+  });
 };
