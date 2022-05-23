@@ -2,24 +2,8 @@ const pool = require("../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-// const createSendToken = (user, statusCode, res) => {
-//     const token = signToken(user._id);
-
-//     res.cookie("jwt", token, {
-//       httpOnly: true,
-//     });
-//     res.status(statusCode).json({
-//       message: "succesful",
-//       token,
-//       data: {
-//         user,
-//       },
-//     });
-//   };
-
 exports.signup = async (req, res) => {
   const { username, fullname, email, password } = req.body;
-  console.log(username);
 
   //Hashing Password
   const salt = bcrypt.genSaltSync(12);
@@ -38,9 +22,43 @@ exports.signup = async (req, res) => {
     message: "successful",
     accessToken,
   });
-  //createSendToken(newUser, 201, res);
 };
 
+exports.login = async (req, res) => {
+  const { username, password } = req.body;
+
+  //Check whether credentials are provided
+  if (!username || !password) {
+    return res.json({
+      message: "Error",
+    });
+  }
+
+  //Check whether username matches
+  const username_query = "SELECT * FROM users WHERE username=?";
+  let user = await pool.query(username_query, [username]);
+  if (user[0].length === 0) {
+    return res.json({
+      message: "INVALID",
+    });
+  }
+
+  //Check whether password matches
+  if (
+    user[0].length > 0 &&
+    (await bcrypt.compare(password, user[0][0].password))
+  ) {
+    const accessToken = generateToken(username);
+    res.status(200).json({
+      message: "successfully Loggied in",
+      accessToken,
+    });
+  } else {
+    return res.json({
+      message: "WRONG PASS",
+    });
+  }
+};
 //Token Creation
 const generateToken = (user) => {
   return jwt.sign(user, process.env.ACCESSKEY);
