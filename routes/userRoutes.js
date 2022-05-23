@@ -10,6 +10,6 @@ router.route("/login").post(authController.login);
 
 router.use(authMiddleware.protectRoute);
 
-router.route("/").get(userController.getAllUsers);
+router.route("/").get(userController.getAllUsers).post(userController.getAUser);
 
 module.exports = router;
