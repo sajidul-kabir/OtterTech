@@ -1,9 +1,15 @@
 const pool = require("../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const AppError = require("../utils/AppError");
+const catchAsync = require("../utils/catchAsync");
 
-exports.signup = async (req, res) => {
+exports.signup = catchAsync(async (req, res, next) => {
   const { username, fullname, email, password } = req.body;
+
+  if (!email || !fullname || !password || !username) {
+    return next(new AppError("provide the required fields", 400));
+  }
 
   //Hashing Password
   const salt = bcrypt.genSaltSync(12);
@@ -22,25 +28,21 @@ exports.signup = async (req, res) => {
     message: "successful",
     accessToken,
   });
-};
+});
 
-exports.login = async (req, res) => {
+exports.login = catchAsync(async (req, res, next) => {
   const { username, password } = req.body;
 
   //Check whether credentials are provided
   if (!username || !password) {
-    return res.json({
-      message: "Error",
-    });
+    return next(new AppError("provide the required fields", 400));
   }
 
   //Check whether username matches
   const username_query = "SELECT * FROM users WHERE username=?";
   let user = await pool.query(username_query, [username]);
   if (user[0].length === 0) {
-    return res.json({
-      message: "INVALID",
-    });
+    return next(new AppError("Invalid username", 404));
   }
 
   //Check whether password matches
@@ -54,11 +56,10 @@ exports.login = async (req, res) => {
       accessToken,
     });
   } else {
-    return res.json({
-      message: "WRONG PASS",
-    });
+    return next(new AppError("Wrong Password", 404));
   }
-};
+});
+
 //Token Creation
 const generateToken = (user) => {
   return jwt.sign(user, process.env.ACCESSKEY);
