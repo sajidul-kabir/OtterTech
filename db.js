@@ -12,4 +12,5 @@ let pool = mysql.createPool({
 });
 console.log("database connected");
 pool = pool.promise();
+
 module.exports = pool;
