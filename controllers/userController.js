@@ -1,6 +1,8 @@
 const pool = require("../db");
+const AppError = require("../utils/AppError");
+const catchAsync = require("../utils/catchAsync");
 
-exports.getAllUsers = async (req, res) => {
+exports.getAllUsers = catchAsync(async (req, res, next) => {
   const query = "SELECT * FROM users";
   const users = await pool.execute(query);
 
@@ -8,15 +10,20 @@ exports.getAllUsers = async (req, res) => {
     message: "successful",
     data: users[0],
   });
-};
+});
 
-exports.getAUser = async (req, res) => {
+exports.getAUser = catchAsync(async (req, res, next) => {
   const { username } = req.body;
+  if (!username) {
+    return next(new AppError("provide the required fields", 400));
+  }
   const username_query = "SELECT * FROM users where username=?";
-  const users = await pool.execute(username_query, [username]);
-
+  const user = await pool.execute(username_query, [username]);
+  if (user[0].length === 0) {
+    return next(new AppError("Invalid username", 404));
+  }
   res.status(200).json({
     message: "successful",
-    data: users[0],
+    data: user[0],
   });
-};
+});
