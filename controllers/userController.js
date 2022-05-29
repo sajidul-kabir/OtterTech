@@ -21,7 +21,6 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 });
 
 exports.getAUser = catchAsync(async (req, res, next) => {
-  console.log(req.params.username);
   const username = req.params.username;
   if (!username) {
     return next(new AppError("provide the required fields", 400));
