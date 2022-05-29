@@ -43,3 +43,15 @@ exports.getBlogsFromAUser = catchAsync(async (req, res, next) => {
     data: blogs[0],
   });
 });
+
+exports.getMyBlogs = catchAsync(async (req, res, next) => {
+  const username = req.user;
+  const blog_query =
+    "SELECT id,title,blog,cover_photo,blogs.created_at,users.username,users.fullname FROM blogs INNER JOIN users on blogs.user_username=users.username WHERE users.username=?";
+  const blogs = await pool.execute(blog_query, [username]);
+
+  res.status(200).json({
+    message: "successful",
+    data: blogs[0],
+  });
+});

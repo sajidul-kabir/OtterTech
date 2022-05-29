@@ -7,6 +7,7 @@ const router = express.Router();
 router.use(authMiddleware.protectRoute);
 
 router.route("/").get(blogController.getAllBlogs);
+router.route("/me").get(blogController.getMyBlogs);
 router.route("/:blogId").get(blogController.getABlog);
 router.route("/user/:username").get(blogController.getBlogsFromAUser);
 
