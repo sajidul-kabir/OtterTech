@@ -8,7 +8,7 @@ app.use(express.json());
 exports.protectRoute = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  if (token === null)
+  if (token === null || token === undefined)
     return res.json({
       message: "NOT LOGGED IN",
     });

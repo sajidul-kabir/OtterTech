@@ -54,8 +54,9 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     "email",
     "password"
   );
+
+  //Hashing Password
   if (filteredBody.password) {
-    //Hashing Password
     const salt = bcrypt.genSaltSync(12);
     const hash = bcrypt.hashSync(filteredBody.password, salt);
     filteredBody.password = hash;
