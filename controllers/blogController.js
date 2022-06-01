@@ -1,7 +1,9 @@
 const pool = require("../db");
+const filterObj = require("../utils/filterObj");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 
+// Blog Selection
 exports.getAllBlogs = catchAsync(async (req, res, next) => {
   const query = "SELECT * FROM blogs";
   const blogs = await pool.execute(query);
@@ -59,6 +61,7 @@ exports.getMyBlogs = catchAsync(async (req, res, next) => {
   });
 });
 
+// Blog Creation
 exports.createABlog = catchAsync(async (req, res, next) => {
   const { title, blog, cover_photo } = req.body;
   if (!title || !blog) {
@@ -76,5 +79,20 @@ exports.createABlog = catchAsync(async (req, res, next) => {
   res.status(200).json({
     message: "successful",
     data: created_blog[0],
+  });
+});
+
+// Blog Modification
+exports.updateABlog = catchAsync(async (req, res, next) => {
+  const { id } = req.body;
+  if (!id) {
+    return next(new AppError("provide the id", 400));
+  }
+  const filteredBody = filterObj(req.body, "title", "blog", "cover_photo");
+  let update_query = "UPDATE blogs SET ? WHERE id = ?";
+  await pool.query(update_query, [filteredBody, id]);
+
+  res.status(200).json({
+    status: "successfully updated",
   });
 });

@@ -9,7 +9,8 @@ router.use(authMiddleware.protectRoute);
 router
   .route("/")
   .get(blogController.getAllBlogs)
-  .post(blogController.createABlog);
+  .post(blogController.createABlog)
+  .patch(blogController.updateABlog);
 
 router.route("/me").get(blogController.getMyBlogs);
 router.route("/:blogId").get(blogController.getABlog);
