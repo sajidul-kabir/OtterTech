@@ -84,7 +84,7 @@ exports.createABlog = catchAsync(async (req, res, next) => {
 
 // Blog Modification
 exports.updateABlog = catchAsync(async (req, res, next) => {
-  const { id } = req.body;
+  const id = req.params.blogId;
   if (!id) {
     return next(new AppError("provide the id", 400));
   }
@@ -92,7 +92,19 @@ exports.updateABlog = catchAsync(async (req, res, next) => {
   let update_query = "UPDATE blogs SET ? WHERE id = ?";
   await pool.query(update_query, [filteredBody, id]);
 
-  res.status(200).json({
-    status: "successfully updated",
+  res.status(202).json({
+    message: "successfully updated",
   });
+});
+
+// Blog Deletion
+exports.deleteABlog = catchAsync(async (req, res, next) => {
+  const id = req.params.blogId;
+  if (!id) {
+    return next(new AppError("provide the id", 400));
+  }
+  let delete_query = "DELETE FROM blogs WHERE id = ?";
+  await pool.query(delete_query, id);
+
+  res.status(204);
 });

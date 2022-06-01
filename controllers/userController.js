@@ -4,6 +4,7 @@ const filterObj = require("../utils/filterObj");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 
+// Selectiong Users
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const query = "SELECT * FROM users";
   const users = await pool.execute(query);
@@ -40,6 +41,7 @@ exports.getMe = catchAsync(async (req, res, next) => {
   });
 });
 
+// Updating User
 exports.updateMe = catchAsync(async (req, res, next) => {
   const filteredBody = filterObj(
     req.body,

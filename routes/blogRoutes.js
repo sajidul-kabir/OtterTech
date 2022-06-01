@@ -9,11 +9,16 @@ router.use(authMiddleware.protectRoute);
 router
   .route("/")
   .get(blogController.getAllBlogs)
-  .post(blogController.createABlog)
-  .patch(blogController.updateABlog);
+  .post(blogController.createABlog);
 
 router.route("/me").get(blogController.getMyBlogs);
-router.route("/:blogId").get(blogController.getABlog);
+
+router
+  .route("/:blogId")
+  .get(blogController.getABlog)
+  .patch(blogController.updateABlog)
+  .delete(blogController.deleteABlog);
+
 router.route("/user/:username").get(blogController.getBlogsFromAUser);
 
 module.exports = router;
