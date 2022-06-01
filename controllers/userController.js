@@ -16,6 +16,7 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await pool.execute(query);
   res.status(200).json({
     message: "successful",
+    total: users[0].length,
     data: users[0],
   });
 });

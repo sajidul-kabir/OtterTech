@@ -7,6 +7,7 @@ exports.getAllBlogs = catchAsync(async (req, res, next) => {
   const blogs = await pool.execute(query);
   res.status(200).json({
     message: "successful",
+    total: blogs[0].length,
     data: blogs[0],
   });
 });
@@ -40,6 +41,7 @@ exports.getBlogsFromAUser = catchAsync(async (req, res, next) => {
   }
   res.status(200).json({
     message: "successful",
+    total: blogs[0].length,
     data: blogs[0],
   });
 });
@@ -52,6 +54,27 @@ exports.getMyBlogs = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     message: "successful",
+    total: blogs[0].length,
     data: blogs[0],
+  });
+});
+
+exports.createABlog = catchAsync(async (req, res, next) => {
+  const { title, blog, cover_photo } = req.body;
+  if (!title || !blog) {
+    return next(new AppError("provide the required fields", 400));
+  }
+  const newBlog = {
+    title,
+    blog,
+    cover_photo,
+    user_username: req.user,
+  };
+  const blog_query = "INSERT INTO blogs SET ?";
+  const created_blog = await pool.query(blog_query, [newBlog]);
+
+  res.status(200).json({
+    message: "successful",
+    data: created_blog[0],
   });
 });
