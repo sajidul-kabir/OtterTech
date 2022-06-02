@@ -1,4 +1,5 @@
 const pool = require("../db");
+const redisClient = require("../utils/redis-config");
 const filterObj = require("../utils/filterObj");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
@@ -6,11 +7,23 @@ const catchAsync = require("../utils/catchAsync");
 // Blog Selection
 exports.getAllBlogs = catchAsync(async (req, res, next) => {
   const query = "SELECT * FROM blogs";
-  const blogs = await pool.execute(query);
-  res.status(200).json({
-    message: "successful",
-    total: blogs[0].length,
-    data: blogs[0],
+  const allBlogs = await pool.execute(query);
+
+  //await redisClient.connect();
+  redisClient.get("blogs", async (err, blogs) => {
+    if (err) console.error(err);
+    if (blogs != null) {
+      console.log("CACHE HIT");
+      return res.json(JSON.parse(blogs));
+    } else {
+      console.log("CACHE MISS");
+      redisClient.setEx("blogs", 3600, JSON.stringify(allBlogs));
+      res.status(200).json({
+        message: "successful",
+        total: allBlogs[0].length,
+        data: allBlogs[0],
+      });
+    }
   });
 });
 
