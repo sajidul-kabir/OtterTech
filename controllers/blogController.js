@@ -14,10 +14,14 @@ exports.getAllBlogs = catchAsync(async (req, res, next) => {
     if (err) console.error(err);
     if (blogs != null) {
       console.log("CACHE HIT");
-      return res.json(JSON.parse(blogs));
+      return res.json({
+        message: "successful",
+        total: JSON.parse(blogs).length,
+        data: JSON.parse(blogs),
+      });
     } else {
       console.log("CACHE MISS");
-      redisClient.setEx("blogs", 3600, JSON.stringify(allBlogs));
+      redisClient.setEx("blogs", 3600, JSON.stringify(allBlogs[0]));
       res.status(200).json({
         message: "successful",
         total: allBlogs[0].length,
