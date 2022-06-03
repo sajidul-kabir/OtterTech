@@ -12,6 +12,7 @@ router
   .post(blogController.createABlog);
 
 router.route("/me").get(blogController.getMyBlogs);
+router.route("/most-popular").get(blogController.mostPopular);
 
 router
   .route("/:blogId")
