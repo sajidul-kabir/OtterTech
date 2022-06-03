@@ -16,6 +16,7 @@ router.route("/me").get(blogController.getMyBlogs);
 router
   .route("/:blogId")
   .get(blogController.getABlog)
+  .post(blogController.upvoteABlog)
   .patch(blogController.updateABlog)
   .delete(blogController.deleteABlog);
 

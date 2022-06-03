@@ -93,7 +93,7 @@ exports.createABlog = catchAsync(async (req, res, next) => {
   const blog_query = "INSERT INTO blogs SET ?";
   const created_blog = await pool.query(blog_query, [newBlog]);
 
-  res.status(200).json({
+  res.status(201).json({
     message: "successful",
     data: created_blog[0],
   });
@@ -124,4 +124,22 @@ exports.deleteABlog = catchAsync(async (req, res, next) => {
   await pool.query(delete_query, id);
 
   res.status(204);
+});
+
+exports.upvoteABlog = catchAsync(async (req, res, next) => {
+  const id = req.params.blogId;
+  if (!id) {
+    return next(new AppError("provide the id", 400));
+  }
+  const blog_info = {
+    users_username: req.user,
+    blog_id: id,
+  };
+  let upvote_query = "INSERT INTO upvotes SET ?";
+  const upvoted_blog = await pool.query(upvote_query, [blog_info]);
+
+  res.status(201).json({
+    message: "successful",
+    data: upvoted_blog[0],
+  });
 });
