@@ -1,71 +1,54 @@
 const pool = require("../db");
-const redisClient = require("../utils/redis-config");
+const { getOrSetCache } = require("../utils/redis-getOrSetCache");
 const filterObj = require("../utils/filterObj");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 
-async function getOrSetCache(key, cb) {
-  redisClient.get(key, async (err, data) => {
-    if (err) console.error(err);
-    if (data != null) {
-      console.log("CACHE HIT");
-      return JSON.parse(data);
-    }
-    console.log("CACHE MISS");
-    const freshData = await cb();
-    redisClient.setEx(key, 60, JSON.stringify(freshData));
-    return freshData;
-  });
+let updated_blogs_counter = 0;
+let current_blogs_counter = 0;
 
-  // return new Promise((resolve, reject) => {
-  //   redisClient.get(key, async (err, data) => {
-  //     if (err) console.error(err);
-  //     if (data != null) {
-  //       return resolve(JSON.parse(data));
-  //     }
-  //     console.log("CACHE MISS");
-  //     const freshData = await cb();
-  //     redisClient.setEx(key, 60, JSON.stringify(freshData));
-  //     resolve(freshData);
-  //   });
-  // });
-}
 // Blog Selection
 exports.getAllBlogs = catchAsync(async (req, res, next) => {
-  const blogs = await getOrSetCache("blogs", async () => {
-    const query = "SELECT * FROM blogs";
-    const allBlogs = await pool.execute(query);
-    return allBlogs[0];
-  });
+  const blogs = await getOrSetCache(
+    "blogs",
+    updated_blogs_counter,
+    current_blogs_counter,
+    async () => {
+      const query = "SELECT * FROM blogs";
+      const allBlogs = await pool.execute(query);
+      current_blogs_counter = 0;
+      updated_blogs_counter = 0;
+      return allBlogs[0];
+    }
+  );
   res.status(200).json({
     message: "successful",
-    total: blogs[0].length,
-    data: blogs[0],
+    total: blogs.length,
+    data: blogs,
   });
-
-  // redisClient.get("blogs", async (err, blogs) => {
-  //   if (err) console.error(err);
-  //   if (blogs != null) {
-  //     console.log("CACHE HIT");
-  //     return res.json({
-  //       message: "successful",
-  //       total: JSON.parse(blogs).length,
-  //       data: JSON.parse(blogs),
-  //     });
-  //   } else {
-  //     console.log("CACHE MISS");
-  //     const query = "SELECT * FROM blogs";
-  //     const allBlogs = await pool.execute(query);
-
-  //     redisClient.setEx("blogs", 60, JSON.stringify(allBlogs[0]));
-  //     res.status(200).json({
-  //       message: "successful",
-  //       total: allBlogs[0].length,
-  //       data: allBlogs[0],
-  //     });
-  //   }
-  // });
 });
+//   redisClient.get("blogs", async (err, blogs) => {
+//     if (err) console.error(err);
+//     if (blogs != null) {
+//       console.log("CACHE HIT");
+//       return res.json({
+//         message: "successful",
+//         total: JSON.parse(blogs).length,
+//         data: JSON.parse(blogs),
+//       });
+//     } else {
+//       console.log("CACHE MISS");
+//       const query = "SELECT * FROM blogs";
+//       const allBlogs = await pool.execute(query);
+//       redisClient.setEx("blogs", 60, JSON.stringify(allBlogs[0]));
+//       res.status(200).json({
+//         message: "successful",
+//         total: allBlogs[0].length,
+//         data: allBlogs[0],
+//       });
+//     }
+//   });
+// });
 
 exports.getABlog = catchAsync(async (req, res, next) => {
   const blogId = req.params.blogId;
@@ -129,6 +112,7 @@ exports.createABlog = catchAsync(async (req, res, next) => {
   const blog_query = "INSERT INTO blogs SET ?";
   const created_blog = await pool.query(blog_query, [newBlog]);
 
+  updated_blogs_counter++;
   res.status(201).json({
     message: "successful",
     data: created_blog[0],
@@ -145,6 +129,7 @@ exports.updateABlog = catchAsync(async (req, res, next) => {
   let update_query = "UPDATE blogs SET ? WHERE id = ?";
   await pool.query(update_query, [filteredBody, id]);
 
+  updated_blogs_counter++;
   res.status(202).json({
     message: "successfully updated",
   });
@@ -158,8 +143,11 @@ exports.deleteABlog = catchAsync(async (req, res, next) => {
   }
   let delete_query = "DELETE FROM blogs WHERE id = ?";
   await pool.query(delete_query, id);
+  updated_blogs_counter++;
 
-  res.status(204);
+  res.status(200).json({
+    message: "deleted",
+  });
 });
 
 exports.upvoteABlog = catchAsync(async (req, res, next) => {
@@ -181,47 +169,47 @@ exports.upvoteABlog = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.mostPopular = catchAsync(async (req, res, next) => {
-//   console.log(most_popular_cache_counter, curr_most_popular_cache_counter);
-//   redisClient.get("most_popular_blogs", async (err, most_popular_blogs) => {
-//     if (err) console.error(err);
-//     if (most_popular_blogs != null) {
-//       if (curr_most_popular_cache_counter === most_popular_cache_counter) {
-//         console.log("CACHE HIT");
-//         return res.json({
-//           message: "successful",
-//           data: JSON.parse(most_popular_blogs),
-//         });
-//       } else {
-//         console.log("STALE DATA CACHE MISS");
-//         curr_most_popular_cache_counter++;
-//         const query =
-//           "SELECT id,title,blog,cover_photo,user_username,created_at,COUNT(*) as total_upvotes from blogs INNER JOIN upvotes ON blogs.id=upvotes.blog_id GROUP BY blogs.id ORDER by total_upvotes DESC LIMIT 5";
-//         const mostPopularBlogs = await pool.execute(query);
-//         redisClient.setEx(
-//           "most_popular_blogs",
-//           60,
-//           JSON.stringify(mostPopularBlogs[0])
-//         );
-//         res.status(200).json({
-//           message: "successful",
-//           data: mostPopularBlogs[0],
-//         });
-//       }
-//     } else {
-//       console.log("CACHE MISS");
-//       const query =
-//         "SELECT id,title,blog,cover_photo,user_username,created_at,COUNT(*) as total_upvotes from blogs INNER JOIN upvotes ON blogs.id=upvotes.blog_id GROUP BY blogs.id ORDER by total_upvotes DESC LIMIT 5";
-//       const mostPopularBlogs = await pool.execute(query);
-//       redisClient.setEx(
-//         "most_popular_blogs",
-//         60,
-//         JSON.stringify(mostPopularBlogs[0])
-//       );
-//       res.status(200).json({
-//         message: "successful",
-//         data: mostPopularBlogs[0],
-//       });
-//     }
-//   });
-// });
+exports.mostPopular = catchAsync(async (req, res, next) => {
+  // console.log(most_popular_cache_counter, curr_most_popular_cache_counter);
+  // redisClient.get("most_popular_blogs", async (err, most_popular_blogs) => {
+  //   if (err) console.error(err);
+  //   if (most_popular_blogs != null) {
+  //     if (curr_most_popular_cache_counter === most_popular_cache_counter) {
+  //       console.log("CACHE HIT");
+  //       return res.json({
+  //         message: "successful",
+  //         data: JSON.parse(most_popular_blogs),
+  //       });
+  //     } else {
+  //       console.log("STALE DATA CACHE MISS");
+  //       curr_most_popular_cache_counter++;
+  //       const query =
+  //         "SELECT id,title,blog,cover_photo,user_username,created_at,COUNT(*) as total_upvotes from blogs INNER JOIN upvotes ON blogs.id=upvotes.blog_id GROUP BY blogs.id ORDER by total_upvotes DESC LIMIT 5";
+  //       const mostPopularBlogs = await pool.execute(query);
+  //       redisClient.setEx(
+  //         "most_popular_blogs",
+  //         60,
+  //         JSON.stringify(mostPopularBlogs[0])
+  //       );
+  //       res.status(200).json({
+  //         message: "successful",
+  //         data: mostPopularBlogs[0],
+  //       });
+  //     }
+  //   } else {
+  //     console.log("CACHE MISS");
+  //     const query =
+  //       "SELECT id,title,blog,cover_photo,user_username,created_at,COUNT(*) as total_upvotes from blogs INNER JOIN upvotes ON blogs.id=upvotes.blog_id GROUP BY blogs.id ORDER by total_upvotes DESC LIMIT 5";
+  //     const mostPopularBlogs = await pool.execute(query);
+  //     redisClient.setEx(
+  //       "most_popular_blogs",
+  //       60,
+  //       JSON.stringify(mostPopularBlogs[0])
+  //     );
+  //     res.status(200).json({
+  //       message: "successful",
+  //       data: mostPopularBlogs[0],
+  //     });
+  //   }
+  // });
+});
