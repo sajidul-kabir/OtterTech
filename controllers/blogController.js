@@ -3,6 +3,7 @@ const { getOrSetCache } = require("../utils/redis-getOrSetCache");
 const filterObj = require("../utils/filterObj");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
+//const redisClient = require("../redis-config");
 
 let updated_blogs_counter = 0;
 let current_blogs_counter = 0;

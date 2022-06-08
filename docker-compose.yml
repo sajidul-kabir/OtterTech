@@ -1,17 +1,11 @@
 version: "3.8"
 
 services:
-  ottertech-node-app:
-    build: .
+  redis:
+    image: redis
+    container_name: redis
     ports:
-      - "5000:5000"
-    volumes:
-      - ./:/app
-      - /app/node_modules
-    environment:
-      - MYSQL_HOST=db
-      - MYSQL_PASS=root
-      - MYSQL_DB=OtterTech
+      - 6379:6379
 
   phpmyadmin:
     image: phpmyadmin
@@ -31,3 +25,18 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_PASSWORD=root
       - MYSQL_DATABASE=OtterTech
+
+  ottertech-node-app:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_PASS=root
+      - MYSQL_DB=OtterTech
+      - REDIS_URL=redis://redis
+    depends_on:
+      - redis
