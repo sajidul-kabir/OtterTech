@@ -1,15 +1,37 @@
+const multer = require("multer");
 const pool = require("../db");
 const { getOrSetCache } = require("../utils/redis-getOrSetCache");
 const filterObj = require("../utils/filterObj");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
-//const redisClient = require("../redis-config");
 
 let updated_blogs_counter = 0;
 let current_blogs_counter = 0;
 
 let updated_popular_blogs_counter = 0;
 let current_popular_blogs_counter = 0;
+
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "img/blogs");
+  },
+  filename: (req, file, cb) => {
+    const ext = file.mimetype.split("/")[1];
+    cb(null, `blog-${Date.now()}.${ext}`);
+  },
+});
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb(new AppError("Not an image! Please upload only images.", 400), false);
+  }
+};
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+exports.uploadCoverPhoto = upload.single("cover-photo");
 
 // Blog Selection
 exports.getAllBlogs = catchAsync(async (req, res, next) => {
@@ -102,14 +124,14 @@ exports.getMyBlogs = catchAsync(async (req, res, next) => {
 
 // Blog Creation
 exports.createABlog = catchAsync(async (req, res, next) => {
-  const { title, blog, cover_photo } = req.body;
+  const { title, blog } = req.body;
   if (!title || !blog) {
     return next(new AppError("provide the required fields", 400));
   }
   const newBlog = {
     title,
     blog,
-    cover_photo,
+    cover_photo: req.file.filename,
     user_username: req.user,
   };
   const blog_query = "INSERT INTO blogs SET ?";

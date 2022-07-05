@@ -12,6 +12,7 @@
           :title="blog.title"
           :blog="blog.blog"
           :user="blog.user_username"
+          :coverPhoto="blog.cover_photo"
         ></blog-list-item>
       </ul>
     </div>
@@ -41,7 +42,5 @@ export default {
   font-size: 36px;
   margin-top: 15px;
   margin-bottom: 25px;
-}
-.section-2-posts {
 }
 </style>

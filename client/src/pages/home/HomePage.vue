@@ -28,6 +28,7 @@ export default {
       .get('http://localhost:5000/api/blogs')
       .then((res) => {
         this.blogs = res.data.data;
+        // console.log(res.data.data);
       })
       .catch((err) => {
         console.log(err);

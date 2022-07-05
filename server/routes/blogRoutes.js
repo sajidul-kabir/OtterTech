@@ -9,7 +9,7 @@ router.use(authMiddleware.protectRoute);
 router
   .route("/")
   .get(blogController.getAllBlogs)
-  .post(blogController.createABlog);
+  .post(blogController.uploadCoverPhoto, blogController.createABlog);
 
 router.route("/me").get(blogController.getMyBlogs);
 router.route("/most-popular").get(blogController.mostPopular);

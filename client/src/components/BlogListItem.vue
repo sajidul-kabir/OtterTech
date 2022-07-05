@@ -1,7 +1,16 @@
 <template>
   <li class="section-2-post">
     <div class="section-2-post-container">
-      <img src="" alt="cover-image" />
+      <img
+        v-if="coverPhoto === null"
+        src="../../../server/img/blogDefault.webp"
+        alt="cover-image"
+      />
+      <img
+        v-else
+        :src="require(`../../../server/img/blogs/${coverPhoto}`)"
+        alt="cover-image"
+      />
       <div class="section-2-post-container-text">
         <h2>
           {{ title }}
@@ -15,7 +24,18 @@
 
 <script>
 export default {
-  props: ['id', 'title', 'blog', 'user'],
+  //   mounted() {
+  //     if (this.coverPhoto != null) {
+  //       let string = '../../../server/img/blogs/' + this.coverPhoto;
+  //       console.log(string);
+  //     }
+  //   },
+  props: ['id', 'title', 'blog', 'user', 'coverPhoto'],
+  //   data() {
+  //     return {
+  //       path: '../../../server/img/blogs/' + this.coverPhoto,
+  //     };
+  //   },
 };
 </script>
 
