@@ -24,9 +24,19 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   await pool.query("INSERT INTO users SET ?", newUser);
   const accessToken = generateToken(username);
+
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+  };
+
+  res.cookie("jwt", accessToken, cookieOptions);
   res.status(201).json({
     message: "successful",
     accessToken,
+    newUser,
   });
 });
 
@@ -51,8 +61,16 @@ exports.login = catchAsync(async (req, res, next) => {
     (await bcrypt.compare(password, user[0][0].password))
   ) {
     const accessToken = generateToken(username);
+    const cookieOptions = {
+      expires: new Date(
+        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+    };
+
+    res.cookie("jwt", accessToken, cookieOptions);
     res.status(200).json({
-      message: "successfully Loggied in",
+      message: "successfully Logged in",
       accessToken,
     });
   } else {

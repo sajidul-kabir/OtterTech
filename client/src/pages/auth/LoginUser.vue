@@ -23,6 +23,7 @@
 
 <script>
 import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -33,18 +34,23 @@ export default {
     };
   },
   methods: {
-    loginUser() {
+    async loginUser() {
       axios
         .post('http://localhost:5000/api/users/login', this.user)
-        .then((res) => {
-          console.log(res);
-        })
         .then(() => {
           this.$router.push('/');
         })
         .catch((err) => {
           console.log(err);
         });
+
+      //   await fetch('http://localhost:5000/api/users/login', {
+      //     method: 'POST',
+      //     headers: { 'Content-Type': 'application/json' },
+      //     credentials: 'include',
+      //     body: JSON.stringify(this.user),
+      //   });
+      //   await this.$router.push('/');
     },
   },
 };
