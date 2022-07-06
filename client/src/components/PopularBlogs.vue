@@ -8,18 +8,22 @@
             <div class="card-image card-image-1"></div>
             <div class="card-text-holder">
               <p class="card-text">
-                Acer Aspire 7 Refreshed With 12th Gen Intel Core i5 Chip
+                {{ second.title }}
               </p>
-              <p class="card-author">by Intel June 25, 2022 2:00 pm in News</p>
+              <p class="card-author">
+                by {{ second.user_username }} {{ second.created_at }} in News
+              </p>
             </div>
           </div>
           <div class="first-section-gray-card bottom-card">
             <div class="card-image card-image-2"></div>
             <div class="card-text-holder">
               <p class="card-text">
-                Realme GT 2 Master Explorer Edition Launch Set for July
+                {{ third.title }}
               </p>
-              <p class="card-author">by Riga June 22, 2022 2:00 pm</p>
+              <p class="card-author">
+                by {{ third.user_username }} {{ third.created_at }}
+              </p>
             </div>
           </div>
         </div>
@@ -28,7 +32,7 @@
           <div class="special-card-image"></div>
           <div class="card-text-holder">
             <h2>{{ first.title }}</h2>
-            <p>by {{ first.author }}, {{ first.time }} in News</p>
+            <p>by {{ first.user_username }}, {{ first.created_at }} in News</p>
           </div>
         </div>
 
@@ -37,18 +41,22 @@
             <div class="card-image card-image-3"></div>
             <div class="card-text-holder">
               <p class="card-text">
-                Where is Elon Musk as america faces biggest issues of its time
+                {{ fourth.title }}
               </p>
-              <p class="card-author">by Josh Henderson June 23, 2022 1:00 pm</p>
+              <p class="card-author">
+                by {{ fourth.user_username }} {{ fourth.created_at }}
+              </p>
             </div>
           </div>
           <div class="first-section-gray-card bottom-card">
             <div class="card-image card-image-4"></div>
             <div class="card-text-holder">
               <p class="card-text">
-                Google Hangouts is shutting down in November
+                {{ fifth.title }}
               </p>
-              <p class="card-author">by Tim June 23, 2022 1:00 pm</p>
+              <p class="card-author">
+                by {{ fifth.user_username }} {{ fifth.created_at }} in News
+              </p>
             </div>
           </div>
         </div>
@@ -63,22 +71,31 @@ export default {
   components: { NavBar },
   props: ['popular'],
   updated() {
-    //console.log(this.popular);
-
     this.popularBlogs = this.popular;
-    this.first.title = this.popularBlogs[0].title;
-    this.first.author = this.popularBlogs[0].user_username;
-    this.first.time = this.getDate(this.popularBlogs[0].created_at);
-    //console.log(this.first.time);
+
+    this.first = this.popularBlogs[0];
+    this.first.created_at = this.getDate(this.first.created_at);
+
+    this.second = this.popularBlogs[1];
+    this.second.created_at = this.getDate(this.second.created_at);
+
+    this.third = this.popularBlogs[2];
+    this.third.created_at = this.getDate(this.third.created_at);
+
+    this.fourth = this.popularBlogs[3];
+    this.fourth.created_at = this.getDate(this.fourth.created_at);
+
+    this.fifth = this.popularBlogs[4];
+    this.fifth.created_at = this.getDate(this.fifth.created_at);
   },
   data() {
     return {
       popularBlogs: [],
-      first: {
-        title: '',
-        author: '',
-        time: '',
-      },
+      first: {},
+      second: {},
+      third: {},
+      fourth: {},
+      fifth: {},
     };
   },
   methods: {
