@@ -5,18 +5,26 @@
       <div class="first-section-gray-cards">
         <div>
           <div class="first-section-gray-card">
-            <div class="card-image card-image-1"></div>
+            <div
+              class="card-image"
+              :style="{ backgroundImage: `url('${path}')` }"
+            ></div>
             <div class="card-text-holder">
               <p class="card-text">
-                {{ second.title }}
+                {{ third.title }}
               </p>
               <p class="card-author">
-                by {{ second.user_username }} {{ second.created_at }} in News
+                by {{ third.user_username }} {{ third.created_at }} in News
               </p>
             </div>
           </div>
-          <div class="first-section-gray-card bottom-card">
-            <div class="card-image card-image-2"></div>
+          <!-- <popular-blog-item
+            :title="title"
+            :key="id"
+            :photo="photo"
+          ></popular-blog-item> -->
+          <!-- <div class="first-section-gray-card bottom-card">
+            <div class="card-image"></div>
             <div class="card-text-holder">
               <p class="card-text">
                 {{ third.title }}
@@ -25,19 +33,23 @@
                 by {{ third.user_username }} {{ third.created_at }}
               </p>
             </div>
-          </div>
-        </div>
+          </div> -->
+          <!-- <popular-blog-item
+            :title="popular[2].title"
+            bottom="yes"
+          ></popular-blog-item>
+        </div> -->
 
-        <div class="first-section-gray-card special-card">
+          <!-- <div class="first-section-gray-card special-card">
           <div class="special-card-image"></div>
           <div class="card-text-holder">
             <h2>{{ first.title }}</h2>
             <p>by {{ first.user_username }}, {{ first.created_at }} in News</p>
           </div>
-        </div>
+        </div> -->
 
-        <div>
-          <div class="first-section-gray-card">
+          <!-- <div> -->
+          <!-- <div class="first-section-gray-card">
             <div class="card-image card-image-3"></div>
             <div class="card-text-holder">
               <p class="card-text">
@@ -47,8 +59,13 @@
                 by {{ fourth.user_username }} {{ fourth.created_at }}
               </p>
             </div>
-          </div>
-          <div class="first-section-gray-card bottom-card">
+          </div> -->
+          <!-- <popular-blog-item
+            :title="popular[3].title"
+            bottom="no"
+          ></popular-blog-item> -->
+
+          <!-- <div class="first-section-gray-card bottom-card">
             <div class="card-image card-image-4"></div>
             <div class="card-text-holder">
               <p class="card-text">
@@ -58,7 +75,11 @@
                 by {{ fifth.user_username }} {{ fifth.created_at }} in News
               </p>
             </div>
-          </div>
+          </div> -->
+          <!-- <popular-blog-item
+            :title="popular[4].title"
+            bottom="yes"
+          ></popular-blog-item> -->
         </div>
       </div>
     </div>
@@ -67,10 +88,19 @@
 
 <script>
 import NavBar from './layout/NavBar.vue';
+//import PopularBlogItem from './PopularBlogItem.vue';
 export default {
   components: { NavBar },
   props: ['popular'],
-  updated() {
+  //   updated() {
+  //     this.popularBlogs = this.popular;
+
+  //     this.first = this.popularBlogs[2];
+  //     this.title = this.first.title;
+  //     this.photo = this.first.cover_photo;
+  //     this.id = this.first.id;
+  //   },
+  beforeUpdate() {
     this.popularBlogs = this.popular;
 
     this.first = this.popularBlogs[0];
@@ -81,6 +111,7 @@ export default {
 
     this.third = this.popularBlogs[2];
     this.third.created_at = this.getDate(this.third.created_at);
+    this.path = this.path + this.third.cover_photo;
 
     this.fourth = this.popularBlogs[3];
     this.fourth.created_at = this.getDate(this.fourth.created_at);
@@ -90,12 +121,16 @@ export default {
   },
   data() {
     return {
+      id: '',
+      title: '',
+      photo: '',
       popularBlogs: [],
       first: {},
       second: {},
       third: {},
       fourth: {},
       fifth: {},
+      path: 'http://localhost:5000/',
     };
   },
   methods: {
@@ -162,11 +197,12 @@ export default {
 .card-image-2 {
   background-image: url('/assets/download\ \(1\).jfif');
 }
-.card-image-3 {
-  background-image: url('/assets/0x0.jpg');
-}
+
 .card-image-4 {
   background-image: url('/assets/gsmarena_000.jpg');
+} */
+/* .card-image-3 {
+  background-image: url('../../../server/img/blogs/blog-1657049290644.png');
 } */
 .card-text-holder {
   background-color: #ffffff70;
