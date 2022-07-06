@@ -24,18 +24,7 @@
 
 <script>
 export default {
-  //   mounted() {
-  //     if (this.coverPhoto != null) {
-  //       let string = '../../../server/img/blogs/' + this.coverPhoto;
-  //       console.log(string);
-  //     }
-  //   },
   props: ['id', 'title', 'blog', 'user', 'coverPhoto'],
-  //   data() {
-  //     return {
-  //       path: '../../../server/img/blogs/' + this.coverPhoto,
-  //     };
-  //   },
 };
 </script>
 

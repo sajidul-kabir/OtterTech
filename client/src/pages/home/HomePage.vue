@@ -1,10 +1,16 @@
 <template>
-  <blog-list :blogs="blogs"></blog-list>
+  <div>
+    <the-header :user="username"></the-header>
+    <popular-blogs :popular="popularBlogs"></popular-blogs>
+    <blog-list :blogs="blogs"></blog-list>
+  </div>
 </template>
 
 <script>
 import axios from 'axios';
 import BlogList from '../../components/BlogList.vue';
+import TheHeader from '../../components/layout/TheHeader.vue';
+import PopularBlogs from '../../components/PopularBlogs.vue';
 
 axios.defaults.withCredentials = true;
 
@@ -17,6 +23,7 @@ export default {
           this.$router.push('/login');
         } else {
           console.log(res.data.data[0].username);
+          this.username = res.data.data[0].username;
         }
       })
       .catch((err) => {
@@ -25,10 +32,19 @@ export default {
   },
   mounted() {
     axios
+      .get('http://localhost:5000/api/blogs/most-popular')
+      .then((res) => {
+        //console.log(res.data.data);
+        this.popularBlogs = res.data.data;
+        // console.log(this.popularBlogs[0].title);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    axios
       .get('http://localhost:5000/api/blogs')
       .then((res) => {
         this.blogs = res.data.data;
-        // console.log(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -37,9 +53,11 @@ export default {
   data() {
     return {
       blogs: [],
+      popularBlogs: [],
+      username: '',
     };
   },
-  components: { BlogList },
+  components: { BlogList, TheHeader, PopularBlogs },
 };
 </script>
 
