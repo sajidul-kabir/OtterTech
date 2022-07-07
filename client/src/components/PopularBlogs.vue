@@ -4,82 +4,51 @@
     <div class="first-section-gray">
       <div class="first-section-gray-cards">
         <div>
-          <div class="first-section-gray-card">
-            <div
-              class="card-image"
-              :style="{ backgroundImage: `url('${path}')` }"
-            ></div>
-            <div class="card-text-holder">
-              <p class="card-text">
-                {{ third.title }}
-              </p>
-              <p class="card-author">
-                by {{ third.user_username }} {{ third.created_at }} in News
-              </p>
-            </div>
-          </div>
-          <!-- <popular-blog-item
-            :title="title"
-            :key="id"
-            :photo="photo"
-          ></popular-blog-item> -->
-          <!-- <div class="first-section-gray-card bottom-card">
-            <div class="card-image"></div>
-            <div class="card-text-holder">
-              <p class="card-text">
-                {{ third.title }}
-              </p>
-              <p class="card-author">
-                by {{ third.user_username }} {{ third.created_at }}
-              </p>
-            </div>
-          </div> -->
-          <!-- <popular-blog-item
-            :title="popular[2].title"
+          <popular-blog-item
+            :title="second.title"
+            :key="second.id"
+            :photo="second.photo"
+            :author="second.user_username"
+            :time="second.created_at"
+          ></popular-blog-item>
+
+          <popular-blog-item
+            :title="third.title"
+            :key="third.id"
+            :photo="third.photo"
+            :author="third.user_username"
+            :time="third.created_at"
             bottom="yes"
           ></popular-blog-item>
-        </div> -->
+        </div>
 
-          <!-- <div class="first-section-gray-card special-card">
-          <div class="special-card-image"></div>
+        <div class="first-section-gray-card special-card">
+          <div
+            class="special-card-image"
+            :style="{ backgroundImage: `url('${first.photo}')` }"
+          ></div>
           <div class="card-text-holder">
             <h2>{{ first.title }}</h2>
             <p>by {{ first.user_username }}, {{ first.created_at }} in News</p>
           </div>
-        </div> -->
+        </div>
 
-          <!-- <div> -->
-          <!-- <div class="first-section-gray-card">
-            <div class="card-image card-image-3"></div>
-            <div class="card-text-holder">
-              <p class="card-text">
-                {{ fourth.title }}
-              </p>
-              <p class="card-author">
-                by {{ fourth.user_username }} {{ fourth.created_at }}
-              </p>
-            </div>
-          </div> -->
-          <!-- <popular-blog-item
-            :title="popular[3].title"
-            bottom="no"
-          ></popular-blog-item> -->
-
-          <!-- <div class="first-section-gray-card bottom-card">
-            <div class="card-image card-image-4"></div>
-            <div class="card-text-holder">
-              <p class="card-text">
-                {{ fifth.title }}
-              </p>
-              <p class="card-author">
-                by {{ fifth.user_username }} {{ fifth.created_at }} in News
-              </p>
-            </div>
-          </div> -->
-          <!-- <popular-blog-item
-            :title="popular[4].title"
+        <div>
+          <popular-blog-item
+            :title="fourth.title"
+            :key="fourth.id"
+            :photo="fourth.photo"
+            :author="fourth.user_username"
+            :time="fourth.created_at"
+          ></popular-blog-item>
+          <popular-blog-item
+            :title="fifth.title"
+            :key="fifth.id"
+            :photo="fifth.photo"
+            :author="fifth.user_username"
+            :time="fifth.created_at"
             bottom="yes"
-          ></popular-blog-item> -->
+          ></popular-blog-item>
         </div>
       </div>
     </div>
@@ -88,42 +57,36 @@
 
 <script>
 import NavBar from './layout/NavBar.vue';
-//import PopularBlogItem from './PopularBlogItem.vue';
-export default {
-  components: { NavBar },
-  props: ['popular'],
-  //   updated() {
-  //     this.popularBlogs = this.popular;
+import PopularBlogItem from './PopularBlogItem.vue';
 
-  //     this.first = this.popularBlogs[2];
-  //     this.title = this.first.title;
-  //     this.photo = this.first.cover_photo;
-  //     this.id = this.first.id;
-  //   },
+export default {
+  components: { NavBar, PopularBlogItem },
+  props: ['popular'],
   beforeUpdate() {
     this.popularBlogs = this.popular;
 
     this.first = this.popularBlogs[0];
     this.first.created_at = this.getDate(this.first.created_at);
+    this.first.photo = this.path + this.first.cover_photo;
 
     this.second = this.popularBlogs[1];
     this.second.created_at = this.getDate(this.second.created_at);
+    this.second.photo = this.path + this.second.cover_photo;
 
     this.third = this.popularBlogs[2];
     this.third.created_at = this.getDate(this.third.created_at);
-    this.path = this.path + this.third.cover_photo;
+    this.third.photo = this.path + this.third.cover_photo;
 
     this.fourth = this.popularBlogs[3];
     this.fourth.created_at = this.getDate(this.fourth.created_at);
+    this.fourth.photo = this.path + this.fourth.cover_photo;
 
     this.fifth = this.popularBlogs[4];
     this.fifth.created_at = this.getDate(this.fifth.created_at);
+    this.fifth.photo = this.path + this.fifth.cover_photo;
   },
   data() {
     return {
-      id: '',
-      title: '',
-      photo: '',
       popularBlogs: [],
       first: {},
       second: {},
@@ -160,7 +123,6 @@ export default {
   flex-direction: column;
   border: 1px groove;
   transition: 0.5s ease;
-  /* backface-visibility: hidden; */
 }
 .first-section-gray-card:hover {
   cursor: pointer;
@@ -170,57 +132,19 @@ export default {
 .first-section-gray-card p {
   margin: 16px 10px;
 }
-.card-text {
-  font-weight: 600;
-  color: #2b282c;
-}
-.card-text:hover {
-  text-decoration: underline solid rgba(0, 0, 0, 0.699) 1px;
-  text-underline-position: under;
-}
-.card-author {
-  margin-top: 0;
-  font-size: 10px;
-}
-.card-image {
-  width: 100%;
-  min-height: 150px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
 
-/* .card-image-1 {
-  background-image: url(./assets/acer-laptop-aspire-7-The-Connectivity-KSP-6_s.jpg);
-}
-
-.card-image-2 {
-  background-image: url('/assets/download\ \(1\).jfif');
-}
-
-.card-image-4 {
-  background-image: url('/assets/gsmarena_000.jpg');
-} */
-/* .card-image-3 {
-  background-image: url('../../../server/img/blogs/blog-1657049290644.png');
-} */
-.card-text-holder {
-  background-color: #ffffff70;
-  flex: auto;
-}
 .special-card {
   position: relative;
   bottom: 68px;
   height: 527px;
   width: 430px;
   min-width: 365px;
-  background: transparent;
+  /* background: transparent; */
   margin: 13px 25px;
 }
 .special-card-image {
   height: 300px;
   width: 100%;
-  /* background-image: url(./assets/download.jfif); */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
