@@ -24,6 +24,7 @@ export default {
         } else {
           console.log(res.data.data[0].username);
           this.username = res.data.data[0].username;
+          window.localStorage.setItem('username', this.username);
         }
       })
       .catch((err) => {
@@ -55,6 +56,11 @@ export default {
       username: '',
     };
   },
+  // provide() {
+  //   return {
+  //     username: this.username,
+  //   };
+  // },
   components: { BlogList, TheHeader, PopularBlogs },
 };
 </script>

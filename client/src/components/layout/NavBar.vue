@@ -16,7 +16,7 @@
         </li>
       </ul>
       <div class="post hvr-sweep-to-right">
-        <p>Post</p>
+        <p><router-link to="/write-blog">Post</router-link></p>
       </div>
     </nav>
     <div class="purple-div"></div>
