@@ -1,7 +1,7 @@
 <template>
   <header class="main-header">
     <div>
-      <img src="../../../public/assets/cover(1).png" alt="logo" />
+      <img src="/assets/cover(1).png" alt="logo" />
     </div>
 
     <p>Hi {{ user }}</p>
