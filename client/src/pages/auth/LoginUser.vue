@@ -1,5 +1,8 @@
 <template>
   <form-ui>
+    <template v-slot:header>
+      <h2>Sign in & Join the Community</h2>
+    </template>
     <form class="body-container-form__form" @submit.prevent="loginUser">
       <div class="user-box">
         <input
@@ -15,13 +18,16 @@
         />
         <label :style="{ color: wrongUser ? 'red' : '' }">Username</label>
         <div v-if="wrongUser">
-          <img class="invalidPasswordImg" src="/assets/invalid.png" alt="" />
-          <p class="invalidPassword">Invalid Username</p>
+          <img class="invalidImg" src="/assets/invalid.png" alt="" />
+          <p class="invalid">Invalid Username</p>
         </div>
       </div>
       <div class="user-box">
         <input
-          :style="{ borderBottom: wrongPass ? '1px solid red' : '' }"
+          :style="[
+            { borderBottom: wrongPass ? '1px solid red' : '' },
+            { color: wrongPass ? 'red' : '' },
+          ]"
           type="password"
           name=""
           required=""
@@ -30,16 +36,9 @@
         />
         <label :style="{ color: wrongPass ? 'red' : '' }">Password</label>
         <div v-if="wrongPass">
-          <img class="invalidPasswordImg" src="/assets/invalid.png" alt="" />
-          <p class="invalidPassword">Wrong Password</p>
+          <img class="invalidImg" src="/assets/invalid.png" alt="" />
+          <p class="invalid">Wrong Password</p>
         </div>
-        <!-- <img
-          v-if="wrongPass"
-          class="invalidPasswordImg"
-          src="/assets/invalid.png"
-          alt=""
-        />
-        <p v-if="wrongPass" class="invalidPassword">Wrong Password</p> -->
       </div>
 
       <button>Sign in</button>
@@ -167,16 +166,17 @@ export default {
   color: #7b6042;
   font-weight: bold;
 }
-.invalidPassword {
+.invalid {
   margin: 0;
   color: red;
   position: relative;
   top: -42px;
-  left: 22px;
+  font-size: 12px;
+  left: 20px;
 }
-.invalidPasswordImg {
-  width: 15px;
+.invalidImg {
+  width: 13px;
   position: relative;
-  bottom: 20px;
+  bottom: 24px;
 }
 </style>

@@ -9,7 +9,8 @@
       <h2>~ A News Portal for Tech Enthussiasts ~</h2>
     </div>
     <div class="body-container-form">
-      <h2>Sign in & Join the Community</h2>
+      <!-- <h2>Sign in & Join the Community</h2> -->
+      <slot name="header"></slot>
       <slot></slot>
     </div>
   </div>
