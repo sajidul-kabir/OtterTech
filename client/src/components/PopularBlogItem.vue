@@ -1,11 +1,16 @@
 <template>
   <div class="first-section-gray-card" :class="extraCard">
-    <div
-      class="card-image"
-      :style="{ backgroundImage: `url('${photo}')` }"
-    ></div>
+    <router-link :to="'/blogs/' + id">
+      <div
+        class="card-image"
+        :style="{ backgroundImage: `url('${photo}')` }"
+      ></div>
+    </router-link>
+
     <div class="card-text-holder">
-      <p class="card-text">{{ title }}</p>
+      <router-link :to="'/blogs/' + id"
+        ><p class="card-text">{{ title }}</p></router-link
+      >
       <p class="card-author">By {{ author }}, {{ time }} in News</p>
     </div>
   </div>
@@ -13,7 +18,7 @@
 
 <script>
 export default {
-  props: ['title', 'photo', 'author', 'time', 'bottom'],
+  props: ['id', 'title', 'photo', 'author', 'time', 'bottom'],
   data() {
     return {};
   },
@@ -26,6 +31,9 @@ export default {
 };
 </script>
 <style scoped>
+a {
+  text-decoration: none;
+}
 .first-section-gray-card {
   width: 210px;
   background: #ffffff70;
