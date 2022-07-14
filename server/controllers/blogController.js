@@ -40,7 +40,7 @@ exports.getAllBlogs = catchAsync(async (req, res, next) => {
     updated_blogs_counter,
     current_blogs_counter,
     async () => {
-      const query = "SELECT * FROM blogs";
+      const query = "SELECT * FROM blogs ORDER BY blogs.created_at DESC";
       const allBlogs = await pool.execute(query);
       current_blogs_counter = 0;
       updated_blogs_counter = 0;

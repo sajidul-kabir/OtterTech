@@ -6,11 +6,11 @@
         src="../../../server/img/blogDefault.webp"
         alt="cover-image"
       />
-      <img
+      <div
         v-else
-        :src="require(`../../../server/img/blogs/${coverPhoto}`)"
-        alt="cover-image"
-      />
+        class="latest"
+        :style="{ backgroundImage: `url('${path}${coverPhoto}')` }"
+      ></div>
       <div class="section-2-post-container-text">
         <h2>
           {{ title }}
@@ -25,6 +25,11 @@
 <script>
 export default {
   props: ['id', 'title', 'blog', 'user', 'coverPhoto'],
+  data() {
+    return {
+      path: 'http://localhost:5000/',
+    };
+  },
 };
 </script>
 
@@ -48,6 +53,19 @@ export default {
 .section-2-post-container img:hover {
   opacity: 0.7;
   cursor: pointer;
+}
+.latest {
+  height: 190px;
+  width: 300px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  align-self: baseline;
+}
+.latest:hover {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: 0.5s ease;
 }
 .section-2-post-container h2,
 p {
