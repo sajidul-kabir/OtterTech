@@ -6,7 +6,7 @@
       <div class="section1-content">
         <div class="section1-content__author">
           <div class="section1-content__author--profile"></div>
-          <p>Author s.k.a</p>
+          <p class="author">Author s.k.a</p>
           <div class="section1-content__author--divider"></div>
           <div class="section1-content__author--icon">
             <img src="/assets/like.png" alt="like" />
@@ -14,14 +14,18 @@
             <img src="/assets/facebook.png" alt="facebook" />
           </div>
           <div class="section1-content__author--divider"></div>
-          <p>
-            Tags Used in this article: Cars, Hyundai, Tech, Electric Vehicle
+          <p class="tags">
+            Tags Used in this article: Gaming, Elden Ring, FromSoftware,
+            Popular, GameoftheYear
           </p>
         </div>
-        <div class="section1-content__img"></div>
+        <div
+          class="section1-content__img"
+          :style="{ backgroundImage: `url('${path}${coverPhoto}')` }"
+        ></div>
       </div>
+      <p>hello</p>
     </section>
-    <section class="section2"></section>
   </div>
 </template>
 
@@ -36,6 +40,8 @@ export default {
       .get(`http://localhost:5000/api/blogs/${id}`)
       .then((res) => {
         this.title = res.data.data[0].title;
+        this.coverPhoto = res.data.data[0].cover_photo;
+        console.log(res.data.data[0]);
       })
       .catch((err) => {
         console.log(err);
@@ -44,6 +50,8 @@ export default {
   data() {
     return {
       title: '',
+      coverPhoto: '',
+      path: 'http://localhost:5000/',
     };
   },
   components: { TheHeader },
@@ -53,7 +61,7 @@ export default {
 <style scoped>
 .section1 {
   background-color: #eeeeee;
-  height: 455px;
+  height: 465px;
   width: 100%;
 }
 .section1 h1 {
@@ -62,6 +70,7 @@ export default {
   margin: 0px auto;
   padding: 35px 0px;
   font-family: none;
+  text-align: center;
 }
 .section1-content {
   display: flex;
@@ -80,12 +89,19 @@ export default {
   background: gray;
   border-radius: 50%;
 }
+.author {
+  margin-bottom: 25px;
+}
 .section1-content__author--divider {
   width: 60%;
   border-bottom: 1px solid #00000047;
 }
 .section1-content__author--icon {
   display: flex;
+}
+.tags {
+  padding-left: 45px;
+  margin-top: 25px;
 }
 .section1-content__author--icon img {
   width: 30px;
@@ -94,7 +110,11 @@ export default {
 .section1-content__img {
   width: 40%;
   height: 455px;
-  background-color: antiquewhite;
   margin-left: 75px;
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: center;
+  position: relative;
+  top: 15px;
 }
 </style>
