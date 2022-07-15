@@ -6,7 +6,7 @@
       <div class="section1-content">
         <div class="section1-content__author">
           <div class="section1-content__author--profile"></div>
-          <p class="author">Author s.k.a</p>
+          <p class="author">Author {{ author }}</p>
           <div class="section1-content__author--divider"></div>
           <div class="section1-content__author--icon">
             <img src="/assets/like.png" alt="like" />
@@ -16,7 +16,7 @@
           <div class="section1-content__author--divider"></div>
           <p class="tags">
             Tags Used in this article: Gaming, Elden Ring, FromSoftware,
-            Popular, GameoftheYear
+            Popular, PS5
           </p>
         </div>
         <div
@@ -24,7 +24,7 @@
           :style="{ backgroundImage: `url('${path}${coverPhoto}')` }"
         ></div>
       </div>
-      <p>hello</p>
+      <p class="section1-blog">{{ blog }}</p>
     </section>
   </div>
 </template>
@@ -41,6 +41,8 @@ export default {
       .then((res) => {
         this.title = res.data.data[0].title;
         this.coverPhoto = res.data.data[0].cover_photo;
+        this.author = res.data.data[0].user_username;
+        this.blog = res.data.data[0].blog;
         console.log(res.data.data[0]);
       })
       .catch((err) => {
@@ -51,6 +53,8 @@ export default {
     return {
       title: '',
       coverPhoto: '',
+      author: '',
+      blog: '',
       path: 'http://localhost:5000/',
     };
   },
@@ -116,5 +120,10 @@ export default {
   background-position: center;
   position: relative;
   top: 15px;
+}
+.section1-blog {
+  margin: 45px 125px;
+  font-size: 20px;
+  text-align: center;
 }
 </style>
