@@ -6,15 +6,20 @@
         src="../../../server/img/blogDefault.webp"
         alt="cover-image"
       />
-      <img
-        v-else
-        :src="require(`../../../server/img/blogs/${coverPhoto}`)"
-        alt="cover-image"
-      />
+      <router-link :to="'/blogs/' + id">
+        <div
+          class="latest"
+          :style="{ backgroundImage: `url('${path}${coverPhoto}')` }"
+        ></div>
+      </router-link>
+
       <div class="section-2-post-container-text">
-        <h2>
-          {{ title }}
-        </h2>
+        <router-link :to="'/blogs/' + id">
+          <h2>
+            {{ title }}
+          </h2>
+        </router-link>
+
         <p>{{ blog }}</p>
         <p>By {{ user }}, 2 hours ago</p>
       </div>
@@ -25,10 +30,18 @@
 <script>
 export default {
   props: ['id', 'title', 'blog', 'user', 'coverPhoto'],
+  data() {
+    return {
+      path: 'http://localhost:5000/',
+    };
+  },
 };
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 .section-2-post {
   list-style: none;
   padding: 40px 0px;
@@ -48,6 +61,19 @@ export default {
 .section-2-post-container img:hover {
   opacity: 0.7;
   cursor: pointer;
+}
+.latest {
+  height: 190px;
+  width: 300px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  align-self: baseline;
+}
+.latest:hover {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: 0.5s ease;
 }
 .section-2-post-container h2,
 p {

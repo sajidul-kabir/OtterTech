@@ -10,6 +10,7 @@
             :photo="second.photo"
             :author="second.user_username"
             :time="second.created_at"
+            :id="second.id"
           ></popular-blog-item>
 
           <popular-blog-item
@@ -18,17 +19,24 @@
             :photo="third.photo"
             :author="third.user_username"
             :time="third.created_at"
+            :id="third.id"
             bottom="yes"
           ></popular-blog-item>
         </div>
 
         <div class="first-section-gray-card special-card">
-          <div
-            class="special-card-image"
-            :style="{ backgroundImage: `url('${first.photo}')` }"
-          ></div>
+          <router-link :to="'/blogs/' + first.id">
+            <div
+              class="special-card-image"
+              :style="{ backgroundImage: `url('${first.photo}')` }"
+            ></div>
+          </router-link>
+
           <div class="card-text-holder">
-            <h2>{{ first.title }}</h2>
+            <router-link :to="'/blogs/' + first.id"
+              ><h2>{{ first.title }}</h2></router-link
+            >
+
             <p>by {{ first.user_username }}, {{ first.created_at }} in News</p>
           </div>
         </div>
@@ -40,6 +48,7 @@
             :photo="fourth.photo"
             :author="fourth.user_username"
             :time="fourth.created_at"
+            :id="fourth.id"
           ></popular-blog-item>
           <popular-blog-item
             :title="fifth.title"
@@ -47,6 +56,7 @@
             :photo="fifth.photo"
             :author="fifth.user_username"
             :time="fifth.created_at"
+            :id="fifth.id"
             bottom="yes"
           ></popular-blog-item>
         </div>
@@ -106,6 +116,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 .first-section-gray {
   background-color: #eeeeee;
 }
@@ -136,10 +149,8 @@ export default {
 .special-card {
   position: relative;
   bottom: 68px;
-  height: 527px;
   width: 430px;
   min-width: 365px;
-  /* background: transparent; */
   margin: 13px 25px;
 }
 .special-card-image {
