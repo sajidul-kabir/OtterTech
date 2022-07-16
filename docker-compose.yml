@@ -11,7 +11,7 @@ services:
     image: phpmyadmin
     restart: always
     ports:
-      - 8080:80
+      - 80:80
     environment:
       - PMA_HOST=db
     depends_on:
@@ -27,7 +27,7 @@ services:
       - MYSQL_DATABASE=OtterTech
 
   ottertech-node-app:
-    build: .
+    build: ./server
     ports:
       - "5000:5000"
     volumes:
@@ -40,3 +40,11 @@ services:
       - REDIS_URL=redis://redis
     depends_on:
       - redis
+
+  ottertech-client-app:
+    restart: always
+    build: ./client
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ottertech-node-app
