@@ -67,6 +67,7 @@ export default {
   background-color: #eeeeee;
   height: 465px;
   width: 100%;
+  border-bottom: 1px groove;
 }
 .section1 h1 {
   font-size: 35px;
@@ -110,6 +111,9 @@ export default {
 .section1-content__author--icon img {
   width: 30px;
   margin: 30px 12px;
+}
+.section1-content__author--icon img:hover {
+  cursor: pointer;
 }
 .section1-content__img {
   width: 40%;

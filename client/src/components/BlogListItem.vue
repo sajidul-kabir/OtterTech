@@ -6,15 +6,20 @@
         src="../../../server/img/blogDefault.webp"
         alt="cover-image"
       />
-      <div
-        v-else
-        class="latest"
-        :style="{ backgroundImage: `url('${path}${coverPhoto}')` }"
-      ></div>
+      <router-link :to="'/blogs/' + id">
+        <div
+          class="latest"
+          :style="{ backgroundImage: `url('${path}${coverPhoto}')` }"
+        ></div>
+      </router-link>
+
       <div class="section-2-post-container-text">
-        <h2>
-          {{ title }}
-        </h2>
+        <router-link :to="'/blogs/' + id">
+          <h2>
+            {{ title }}
+          </h2>
+        </router-link>
+
         <p>{{ blog }}</p>
         <p>By {{ user }}, 2 hours ago</p>
       </div>
@@ -34,6 +39,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 .section-2-post {
   list-style: none;
   padding: 40px 0px;
