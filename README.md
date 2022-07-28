@@ -1,4 +1,4 @@
-# OtterTech : A Full Stack News-blog system. Assignment Task-02 for Web Technologies.
+# OtterTech : A Full Stack Tech-blogging system. Assignment Task-02 for Web Technologies.
 
 ## Technologies used
 [<img width="36" alt="Vue.js" src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" />][vue.js]
