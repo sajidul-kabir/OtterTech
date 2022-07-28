@@ -24,6 +24,20 @@
 
 
 ### The complete API documentation can be found [here](https://documenter.getpostman.com/view/14324664/Uz5GowAx)
+<br>
+
+## How to run the project with Docker
+
+- First Clone the project
+- To build the containers run this command 
+```
+docker compose up -d
+```
+- Once all the containers are running visit `http://localhost:80` to phpmyadmin for local DB creation
+- Create the Database like [this](https://gist.github.com/sajidul-kabir/7f8a07758779b248b72c9128f8df1fa1)
+- Make a file named **config.env** inside the server folder and paste [this](https://gist.github.com/sajidul-kabir/bebb95cc508b68920073685e6e472230) code
+- The node.js server will run on `http://localhost:5000`
+- The client side application will run on `http://localhost:8080`. Access this port to enter the application.
 
 [vue.js]: https://vuejs.org/
 [nodejs]: https://nodejs.org/en/
