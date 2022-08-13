@@ -11,11 +11,18 @@
           <div class="section1-content__author--icon">
             <img
               v-if="liked === true"
+              @click="likeClick"
               src="/assets/like (2).png"
               alt="like"
               class="like"
             />
-            <img v-else src="/assets/like.png" alt="like" class="like" />
+            <img
+              v-else
+              src="/assets/like.png"
+              alt="like"
+              class="like"
+              @click="likeClick"
+            />
             <p class="like-count">{{ upvotes }}</p>
             <img src="/assets/comment.png" alt="comment" />
             <img src="/assets/facebook.png" alt="facebook" />
@@ -76,6 +83,25 @@ export default {
       liked: 'false',
       path: 'http://localhost:5000/',
     };
+  },
+  methods: {
+    likeClick() {
+      console.log('Clicked');
+      if (this.liked === true) {
+        console.log('liked');
+      } else {
+        axios
+          .post(`http://localhost:5000/api/blogs/${this.$route.params.blogId}`)
+          .then(() => {
+            console.log('like done');
+            this.liked = true;
+            this.upvotes++;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
   },
   components: { TheHeader },
 };
