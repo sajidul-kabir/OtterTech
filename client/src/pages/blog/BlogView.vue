@@ -9,7 +9,8 @@
           <p class="author">Author {{ author }}</p>
           <div class="section1-content__author--divider"></div>
           <div class="section1-content__author--icon">
-            <img src="/assets/like.png" alt="like" />
+            <img src="/assets/like.png" alt="like" class="like" />
+            <p class="like-count">{{ upvotes }}</p>
             <img src="/assets/comment.png" alt="comment" />
             <img src="/assets/facebook.png" alt="facebook" />
           </div>
@@ -43,6 +44,7 @@ export default {
         this.coverPhoto = res.data.data[0].cover_photo;
         this.author = res.data.data[0].user_username;
         this.blog = res.data.data[0].blog;
+        this.upvotes = res.data.data[0].total_upvotes;
         console.log(res.data.data[0]);
       })
       .catch((err) => {
@@ -55,6 +57,7 @@ export default {
       coverPhoto: '',
       author: '',
       blog: '',
+      upvotes: '',
       path: 'http://localhost:5000/',
     };
   },
@@ -124,6 +127,14 @@ export default {
   background-position: center;
   position: relative;
   top: 15px;
+}
+.like-count {
+  display: none;
+  align-self: center;
+  margin-right: 10px;
+}
+.like:hover + .like-count {
+  display: block;
 }
 .section1-blog {
   margin: 45px 125px;

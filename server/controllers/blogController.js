@@ -59,7 +59,8 @@ exports.getABlog = catchAsync(async (req, res, next) => {
   if (!blogId) {
     return next(new AppError("provide the required fields", 400));
   }
-  const blog_query = "SELECT * FROM blogs where id=?";
+  const blog_query =
+    "SELECT  blogs.id,blogs.title,blogs.blog,blogs.cover_photo,blogs.user_username,blogs.created_at,COUNT(*) as total_upvotes FROM blogs JOIN upvotes ON blogs.id=upvotes.blog_id where blogs.id=?";
   const blog = await pool.execute(blog_query, [blogId]);
   if (blog[0].length === 0) {
     return next(new AppError("Invalid ID", 404));
