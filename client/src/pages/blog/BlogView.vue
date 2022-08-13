@@ -9,7 +9,13 @@
           <p class="author">Author {{ author }}</p>
           <div class="section1-content__author--divider"></div>
           <div class="section1-content__author--icon">
-            <img src="/assets/like.png" alt="like" class="like" />
+            <img
+              v-if="liked === true"
+              src="/assets/like (2).png"
+              alt="like"
+              class="like"
+            />
+            <img v-else src="/assets/like.png" alt="like" class="like" />
             <p class="like-count">{{ upvotes }}</p>
             <img src="/assets/comment.png" alt="comment" />
             <img src="/assets/facebook.png" alt="facebook" />
@@ -45,10 +51,19 @@ export default {
         this.author = res.data.data[0].user_username;
         this.blog = res.data.data[0].blog;
         this.upvotes = res.data.data[0].total_upvotes;
-        console.log(res.data.data[0]);
       })
       .catch((err) => {
         console.log(err);
+      });
+
+    axios
+      .get(`http://localhost:5000/api/blogs/seeMyUpvote/${id}`)
+      .then((res) => {
+        console.log('already liked', res);
+        this.liked = true;
+      })
+      .catch((err) => {
+        console.log('not liked', err);
       });
   },
   data() {
@@ -58,6 +73,7 @@ export default {
       author: '',
       blog: '',
       upvotes: '',
+      liked: 'false',
       path: 'http://localhost:5000/',
     };
   },
