@@ -88,12 +88,21 @@ export default {
     likeClick() {
       console.log('Clicked');
       if (this.liked === true) {
-        console.log('liked');
+        axios
+          .delete(
+            `http://localhost:5000/api/blogs/upvotes/${this.$route.params.blogId}`
+          )
+          .then(() => {
+            this.liked = false;
+            this.upvotes--;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } else {
         axios
           .post(`http://localhost:5000/api/blogs/${this.$route.params.blogId}`)
           .then(() => {
-            console.log('like done');
             this.liked = true;
             this.upvotes++;
           })

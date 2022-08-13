@@ -196,6 +196,19 @@ exports.upvoteABlog = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.deleteUpvote = catchAsync(async (req, res, next) => {
+  const blogId = req.params.blogId;
+  if (!blogId) {
+    return next(new AppError("provide the required fields", 400));
+  }
+  const blog_query =
+    "DELETE FROM upvotes WHERE upvotes.users_username = ? AND upvotes.blog_id = ?";
+  await pool.execute(blog_query, [req.user, blogId]);
+  res.status(200).json({
+    message: "successfully deleted",
+  });
+});
+
 exports.yourUpvote = catchAsync(async (req, res, next) => {
   const blogId = req.params.blogId;
   if (!blogId) {
