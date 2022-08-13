@@ -217,9 +217,7 @@ exports.yourUpvote = catchAsync(async (req, res, next) => {
   const blog_query =
     "SELECT * from users JOIN upvotes ON users.username=upvotes.users_username WHERE users.username=? && blog_id=?";
   const blog = await pool.execute(blog_query, [req.user, blogId]);
-  if (blog[0].length === 0) {
-    return next(new AppError("Invalid ID", 404));
-  }
+
   res.status(200).json({
     message: "successful",
     data: blog[0],

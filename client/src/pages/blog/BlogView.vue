@@ -66,11 +66,14 @@ export default {
     axios
       .get(`http://localhost:5000/api/blogs/seeMyUpvote/${id}`)
       .then((res) => {
-        console.log('already liked', res);
-        this.liked = true;
+        if (res.data.data[0].length != 0) {
+          console.log('already liked');
+          this.liked = true;
+        }
       })
-      .catch((err) => {
-        console.log('not liked', err);
+      .catch(() => {
+        console.log('not liked');
+        this.liked = false;
       });
   },
   data() {
