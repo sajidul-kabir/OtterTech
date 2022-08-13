@@ -13,6 +13,7 @@ router
 
 router.route("/me").get(blogController.getMyBlogs);
 router.route("/most-popular").get(blogController.mostPopular);
+router.route("/seeMyUpvote/:blogId").get(blogController.yourUpvote);
 
 router
   .route("/:blogId")
