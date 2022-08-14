@@ -4,7 +4,7 @@
       <img src="/assets/cover(1).png" alt="logo" />
     </div>
     <div class="header-icons">
-      <p class="header-icons--profile">{{ initial }}</p>
+      <p class="header-icons--profile">A</p>
       <img
         class="header-dd"
         src="/assets/615-6156460_grey-triangle-no-background-png-download-arrow-transparent-removebg-preview.png"
@@ -28,7 +28,7 @@ export default {
   props: ['user'],
   data() {
     return {
-      initial: this.user[0],
+      initial: this.user,
       dd: false,
     };
   },
