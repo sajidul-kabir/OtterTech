@@ -4,13 +4,18 @@
       <img src="/assets/cover(1).png" alt="logo" />
     </div>
 
-    <p>Hi {{ user }}</p>
+    <p>{{ initial }}</p>
   </header>
 </template>
 
 <script>
 export default {
   props: ['user'],
+  data() {
+    return {
+      initial: this.user[0],
+    };
+  },
 };
 </script>
 
@@ -31,7 +36,13 @@ header img {
 }
 
 header p {
-  margin: 0;
-  color: #ffffffc7;
+  width: 40px;
+  height: 40px;
+  border-radius: 43px;
+  background-color: #5c5249;
+  text-align: center;
+  font-size: 22px;
+  padding: 4px;
+  color: #eeeeee;
 }
 </style>
