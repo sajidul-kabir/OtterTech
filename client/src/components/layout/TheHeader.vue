@@ -3,8 +3,14 @@
     <div>
       <img src="/assets/cover(1).png" alt="logo" />
     </div>
-
-    <p>{{ initial }}</p>
+    <div class="header-icons">
+      <p>{{ initial }}</p>
+      <img
+        class="header-dd"
+        src="/assets/615-6156460_grey-triangle-no-background-png-download-arrow-transparent-removebg-preview.png"
+        alt=""
+      />
+    </div>
   </header>
 </template>
 
@@ -44,5 +50,21 @@ header p {
   font-size: 22px;
   padding: 4px;
   color: #eeeeee;
+}
+header p:hover {
+  cursor: pointer;
+}
+.header-icons {
+  display: flex;
+  align-items: center;
+}
+.header-dd {
+  width: 18px;
+  height: 14px;
+  margin-left: 5px;
+  margin-top: 6px;
+}
+.header-dd:hover {
+  cursor: pointer;
 }
 </style>
