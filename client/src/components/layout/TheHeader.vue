@@ -4,12 +4,21 @@
       <img src="/assets/cover(1).png" alt="logo" />
     </div>
     <div class="header-icons">
-      <p>{{ initial }}</p>
+      <p class="header-icons--profile">{{ initial }}</p>
       <img
         class="header-dd"
         src="/assets/615-6156460_grey-triangle-no-background-png-download-arrow-transparent-removebg-preview.png"
         alt=""
+        @click="dropDown"
       />
+      <div class="dropdown" :style="{ display: dd ? 'block' : 'none' }">
+        <div class="dropdown-content">
+          <p>Signed in as {{ user }}</p>
+          <a href="#">Profile</a>
+          <a href="#">My-Blogs</a>
+          <a href="#">Favourites</a>
+        </div>
+      </div>
     </div>
   </header>
 </template>
@@ -20,7 +29,13 @@ export default {
   data() {
     return {
       initial: this.user[0],
+      dd: false,
     };
+  },
+  methods: {
+    dropDown() {
+      this.dd = !this.dd;
+    },
   },
 };
 </script>
@@ -41,7 +56,7 @@ header img {
   height: 100px;
 }
 
-header p {
+.header-icons--profile {
   width: 40px;
   height: 40px;
   border-radius: 43px;
@@ -51,7 +66,7 @@ header p {
   padding: 4px;
   color: #eeeeee;
 }
-header p:hover {
+.header-icons--profile:hover {
   cursor: pointer;
 }
 .header-icons {
@@ -66,5 +81,29 @@ header p:hover {
 }
 .header-dd:hover {
   cursor: pointer;
+}
+.dropdown {
+  display: none;
+  height: 180px;
+  background-color: #eeeeee;
+  position: absolute;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 20%);
+  z-index: 1;
+  top: 88px;
+}
+.dropdown-content p {
+  margin: 0;
+  border-bottom: 1px groove;
+  padding: 12px 16px;
+}
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown-content a:hover {
+  background-color: #bebebe;
 }
 </style>
