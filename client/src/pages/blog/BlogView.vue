@@ -39,6 +39,7 @@
         ></div>
       </div>
       <p class="section1-blog">{{ blog }}</p>
+      <the-footer></the-footer>
     </section>
   </div>
 </template>
@@ -46,6 +47,7 @@
 <script>
 import axios from 'axios';
 import TheHeader from '../../components/layout/TheHeader.vue';
+import TheFooter from '../../components/layout/TheFooter.vue';
 export default {
   props: ['blogId'],
   created() {
@@ -115,7 +117,7 @@ export default {
       }
     },
   },
-  components: { TheHeader },
+  components: { TheHeader, TheFooter },
 };
 </script>
 

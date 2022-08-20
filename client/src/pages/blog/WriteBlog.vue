@@ -38,14 +38,16 @@
         <button>Post</button>
       </div>
     </form>
+    <the-footer></the-footer>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import TheHeader from '../../components/layout/TheHeader.vue';
+import TheFooter from '../../components/layout/TheFooter.vue';
 export default {
-  components: { TheHeader },
+  components: { TheHeader, TheFooter },
   //   mounted() {
   //     const x = document.cookie.split(' ');
   //     console.log(x);

@@ -1,7 +1,9 @@
 <template>
   <header class="main-header">
     <div>
-      <img src="/assets/cover(1).png" alt="logo" />
+      <router-link to="/"
+        ><img src="/assets/cover(1).png" alt="logo"
+      /></router-link>
     </div>
     <div class="header-icons">
       <p class="header-icons--profile">A</p>
@@ -11,7 +13,7 @@
         alt=""
         @click="dropDown"
       />
-      <div class="dropdown" :style="{ display: dd ? 'block' : 'none' }">
+      <div class="dropdown" :style="{ display: dd ? 'table' : 'none' }">
         <div class="dropdown-content">
           <p>Signed in as {{ user }}</p>
           <a href="#">Profile</a>
@@ -54,6 +56,9 @@ export default {
 header img {
   width: 250px;
   height: 100px;
+}
+header img:hover {
+  cursor: pointer;
 }
 
 .header-icons--profile {

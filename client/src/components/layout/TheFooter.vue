@@ -1,5 +1,10 @@
 <template>
-  <v-footer dark padless class="footer-holder footer-theme">
+  <v-footer
+    dark
+    padless
+    class="footer-holder footer-theme"
+    style="margin-top: 90px"
+  >
     <v-card
       flat
       tile

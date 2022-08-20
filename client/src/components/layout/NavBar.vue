@@ -121,7 +121,7 @@ nav {
   width: 150px;
   position: relative;
   font-weight: 500;
-  top: 70px;
+  top: 85px;
   left: 115px;
 }
 </style>
