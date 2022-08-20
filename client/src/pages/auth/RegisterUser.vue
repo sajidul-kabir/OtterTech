@@ -45,7 +45,7 @@
 
 <script>
 import axios from 'axios';
-import FormUi from '../../components/FormUi.vue';
+import FormUi from '../../components/layout/FormUi.vue';
 export default {
   components: { FormUi },
   data() {

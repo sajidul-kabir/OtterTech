@@ -3,7 +3,7 @@ import HomePage from './pages/home/HomePage.vue';
 import LoginUser from './pages/auth/LoginUser.vue';
 import RegisterUser from './pages/auth/RegisterUser.vue';
 import WriteBlog from './pages/blog/WriteBlog.vue';
-import FormUi from './components/FormUi.vue';
+import FormUi from './components/layout/FormUi.vue';
 import BlogView from './pages/blog/BlogView.vue';
 
 const router = createRouter({

@@ -1,8 +1,18 @@
 <template>
-  <v-footer dark padless class="footer-holder">
-    <v-card flat tile class="indigo lighten-1 white--text text-center">
-      <v-card-text>
-        <v-btn v-for="icon in icons" :key="icon" class="mx-4 white--text" icon>
+  <v-footer dark padless class="footer-holder footer-theme">
+    <v-card
+      flat
+      tile
+      class="indigo lighten-1 white--text text-center footer-theme"
+    >
+      <v-card-text class="icon-holder">
+        <v-btn
+          v-for="icon in icons"
+          :key="icon"
+          class="mx-4 white--text"
+          icon
+          style="background-color: #eeeeee"
+        >
           <v-icon size="24px">
             {{ icon }}
           </v-icon>
@@ -13,7 +23,7 @@
         <v-container class="grey lighten-5">
           <v-row no-gutters class="footer-holder--row">
             <v-col cols="12" sm="4" class="footer-holder--cols">
-              <v-card class="pa-2" flat>
+              <v-card class="pa-2 footer-theme border-footer" flat>
                 <h2 class="footer-section">About</h2>
                 <p>OtterTech Team</p>
                 <p>Motivation</p>
@@ -22,7 +32,7 @@
               </v-card>
             </v-col>
             <v-col cols="12" sm="4" class="footer-holder--cols">
-              <v-card class="pa-2" flat>
+              <v-card class="pa-2 footer-theme border-footer" flat>
                 <h2 class="footer-section">Sections</h2>
                 <p>News</p>
                 <p>Jobs</p>
@@ -31,7 +41,7 @@
               </v-card>
             </v-col>
             <v-col cols="12" sm="4" class="footer-holder--cols">
-              <v-card class="pa-2" flat>
+              <v-card class="pa-2 footer-theme" flat>
                 <h2 class="footer-contact">Contact Us</h2>
                 <p class="footer-address">
                   Address : 98 Post St, San Francisco, CA 94104. 575 Market St,
@@ -43,7 +53,7 @@
         </v-container>
       </v-card-text>
 
-      <v-card-text class="white--text">
+      <v-card-text class="white--text footer-theme footer-copyright">
         {{ new Date().getFullYear() }} — <strong>OtterTech</strong>
       </v-card-text>
     </v-card>
@@ -58,8 +68,14 @@ export default {
 };
 </script>
 <style scoped>
+.footer-theme {
+  background-color: #2b282c;
+}
 .footer-holder {
   justify-content: center;
+}
+.icon-holder {
+  margin-top: 10px;
 }
 .footer-holder--row {
   flex-wrap: nowrap;
@@ -67,6 +83,7 @@ export default {
 .footer-holder--cols {
   min-width: 373px;
 }
+
 .footer-section {
   margin-bottom: 15px;
 }
@@ -75,5 +92,26 @@ export default {
 }
 .footer-contact {
   margin-bottom: 3px;
+}
+
+.footer-copyright {
+  color: #eeeeee;
+  font-weight: 300;
+  border-top: 1px solid #74665747;
+}
+.border-footer {
+  border-right: 1px solid #74665747 !important;
+}
+.footer-holder h2 {
+  color: #eeeeee;
+  font-weight: 300;
+}
+.footer-holder p {
+  color: #eeeeeea8;
+  font-weight: 100;
+}
+.footer-holder p:hover {
+  cursor: pointer;
+  color: white;
 }
 </style>
