@@ -3,6 +3,7 @@
     <the-header :user="username"></the-header>
     <popular-blogs :popular="popularBlogs"></popular-blogs>
     <blog-list :blogs="blogs"></blog-list>
+    <the-footer></the-footer>
   </div>
 </template>
 
@@ -11,6 +12,7 @@ import axios from 'axios';
 import BlogList from '../../components/BlogList.vue';
 import TheHeader from '../../components/layout/TheHeader.vue';
 import PopularBlogs from '../../components/PopularBlogs.vue';
+import TheFooter from '../../components/layout/TheFooter.vue';
 
 axios.defaults.withCredentials = true;
 
@@ -61,7 +63,7 @@ export default {
   //     username: this.username,
   //   };
   // },
-  components: { BlogList, TheHeader, PopularBlogs },
+  components: { BlogList, TheHeader, PopularBlogs, TheFooter },
 };
 </script>
 
