@@ -16,7 +16,7 @@
       <div class="dropdown" :style="{ display: dd ? 'table' : 'none' }">
         <div class="dropdown-content">
           <p>Signed in as {{ user }}</p>
-          <a href="#">Profile</a>
+          <router-link to="/profile">Profile</router-link>
           <a href="#">My-Blogs</a>
           <a href="#">Favourites</a>
         </div>

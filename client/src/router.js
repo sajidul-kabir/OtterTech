@@ -5,6 +5,7 @@ import RegisterUser from './pages/auth/RegisterUser.vue';
 import WriteBlog from './pages/blog/WriteBlog.vue';
 import FormUi from './components/layout/FormUi.vue';
 import BlogView from './pages/blog/BlogView.vue';
+import MyProfile from './pages/profile/MyProfile.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -15,6 +16,7 @@ const router = createRouter({
     { path: '/write-blog', component: WriteBlog },
     { path: '/form', component: FormUi },
     { path: '/blogs/:blogId', component: BlogView, props: true },
+    { path: '/profile', component: MyProfile, props: true },
   ],
   linkActiveClass: 'active', // active class for non-exact links.
   linkExactActiveClass: 'active', // active class for *exact* links.
