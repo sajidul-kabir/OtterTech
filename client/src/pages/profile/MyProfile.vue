@@ -3,7 +3,13 @@
     <the-header></the-header>
     <div class="profile">
       <div class="settings">
-        <h2>Settings</h2>
+        <div class="settings-holder">
+          <h2>Settings</h2>
+          <p>FAQ</p>
+          <p>Help</p>
+          <p>About</p>
+          <button class="log-out">Log out</button>
+        </div>
       </div>
       <div class="divider-section"></div>
       <div class="public-profile">
@@ -41,7 +47,7 @@
             <label>Change Fullname</label>
           </div>
           <div class="user-box">
-            <input type="email" name="" required="" />
+            <input type="text" name="" required="" />
             <label>Change Email-Address</label>
           </div>
           <div class="user-box">
@@ -70,19 +76,52 @@ export default {
   display: flex;
 }
 .profile-h2 {
-  margin-top: 140px;
+  margin-top: 70px;
   margin-bottom: 25px;
   font-weight: 100;
 }
 .settings {
   width: 35%;
 }
+
+.settings-holder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+}
+.settings-holder p {
+  margin: 10px 0px;
+  border: 1px solid #2b282c54;
+  padding: 10px 35px;
+  border-radius: 6px;
+}
+.settings-holder p:hover {
+  cursor: pointer;
+  background-color: rgb(220, 216, 216);
+}
+.settings-holder h2 {
+  margin-bottom: 30px;
+  font-size: 32px;
+}
+.log-out {
+  margin-top: 50px;
+  /* border-style: solid; */
+  padding: 12px 35px;
+  border-radius: 7px;
+  background-color: #ff0000ba;
+  color: white;
+  border: 1px groove;
+  font-weight: 600;
+  box-shadow: 1px 2px 6px red;
+}
 .divider-section {
   position: relative;
   border-right: 1px groove;
-  height: 290px;
-  top: 245px;
-  margin-right: 70px;
+  height: 406px;
+  top: 190px;
+  margin-right: 150px;
 }
 .public-profile {
 }
