@@ -17,24 +17,38 @@
         <div class="public-profile-photo">
           <div class="public-profile-photo-pic">
             <v-avatar color="grey lighten-1" size="150">
-              <!-- <div class="profile-img"></div> -->
-              <img
+              <div
+                class="profile-img"
+                :style="{ backgroundImage: `url('${getProfilePhoto()}')` }"
+              ></div>
+              <!-- <img
                 class="img-circle"
                 :src="getProfilePhoto()"
                 alt="User Avatar"
-              />
+              /> -->
             </v-avatar>
           </div>
 
           <div>
-            <div class="my-2">
-              <v-btn
+            <div class="form-buttons">
+              <!-- <v-btn
                 color="#2b282c"
                 large
                 class="profile-change-picture pt-4 pb-7"
                 >Change Picture
                 <input type="file" @change="onFileSelected" />
-              </v-btn>
+              </v-btn> -->
+              <div class="form-buttons">
+                <label class="file">
+                  <input
+                    type="file"
+                    id="file"
+                    aria-label="File browser example"
+                    @change="onFileSelected"
+                  />
+                  <span class="file-custom">Change Picture</span>
+                </label>
+              </div>
             </div>
             <div class="my-2">
               <v-btn class="profile-delete-picture pt-3 pb-7">
@@ -166,12 +180,10 @@ export default {
   top: 190px;
   margin-right: 150px;
 }
-.public-profile {
-}
-.profile-change-picture {
-  color: white;
-  font-size: 12px;
-  margin: 5px 0px;
+
+.form-buttons {
+  margin-top: 28px !important;
+  margin-bottom: 25px !important;
 }
 .profile-delete-picture {
   color: red;
@@ -185,9 +197,8 @@ export default {
   margin-right: 55px;
 }
 .profile-img {
-  background-image: url('../../../public/assets/user.png');
   width: 150px;
-  background-position: center;
+  background-position: inherit;
   height: 150px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -252,5 +263,21 @@ export default {
 .body-container-form__form button:hover {
   cursor: pointer;
   opacity: 0.9;
+}
+.file-custom {
+  border: 1px solid;
+  font-size: 12p;
+  background: #2b282c;
+  color: white;
+  padding: 10px 17px;
+  padding-bottom: 12px;
+  box-shadow: 1px 1px 3px black;
+  border-radius: 6px;
+}
+.file-custom:hover {
+  cursor: pointer;
+}
+input[type='file'] {
+  display: none;
 }
 </style>
