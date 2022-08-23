@@ -59,8 +59,24 @@
         </div>
         <form class="body-container-form__form" @submit.prevent="profileUpdate">
           <div class="user-box">
-            <input type="text" name="" required="" v-model="username" />
-            <label>Change Username</label>
+            <input
+              :style="[
+                { borderBottom: wrongUser ? '1px solid red' : '' },
+                { color: wrongUser ? 'red' : '' },
+              ]"
+              type="text"
+              name=""
+              required=""
+              v-model="username"
+              @blur="validateUser"
+            />
+            <label :style="{ color: wrongUser ? 'red' : '' }"
+              >Change Username</label
+            >
+            <div v-if="wrongUser">
+              <img class="invalidImg" src="/assets/invalid.png" alt="" />
+              <p class="invalid">Invalid Username</p>
+            </div>
           </div>
           <div class="user-box">
             <input type="text" name="" required="" v-model="fullname" />
@@ -71,7 +87,7 @@
             <label>Change Email-Address</label>
           </div>
           <div class="user-box">
-            <input type="password" name="" />
+            <input type="password" name="" v-model="password" />
             <label>Change Password</label>
           </div>
 
@@ -94,7 +110,9 @@ export default {
         this.username = res.data.data[0].username;
         this.fullname = res.data.data[0].fullname;
         this.email = res.data.data[0].email;
-        this.user_photo = res.data.data[0].user_photo;
+
+        if (res.data.data[0].user_photo != null)
+          this.user_photo = res.data.data[0].user_photo;
       })
       .catch((err) => {
         console.log(err);
@@ -102,11 +120,13 @@ export default {
   },
   data() {
     return {
+      wrongUser: false,
       user_photo: 'user.png',
       username: '',
       fullname: '',
       email: '',
       password: '',
+      backup: '',
     };
   },
   methods: {
@@ -121,6 +141,9 @@ export default {
           console.log(err);
         });
     },
+    validateUser() {
+      this.wrongUser = false;
+    },
     onFileSelected(e) {
       let file = e.target.files[0];
       let reader = new FileReader();
@@ -132,6 +155,7 @@ export default {
         this.user_photo = reader.result;
       };
       reader.readAsDataURL(file);
+      this.backup = file;
     },
     getProfilePhoto() {
       let photo =
@@ -142,10 +166,19 @@ export default {
     },
     profileUpdate() {
       const fd = new FormData();
+
+      if (this.backup != '') {
+        this.user_photo = this.backup;
+      }
+
       fd.append('user_photo', this.user_photo);
       fd.append('username', this.username);
       fd.append('email', this.email);
       fd.append('fullname', this.fullname);
+
+      if (this.password != '') {
+        fd.append('password', this.password);
+      }
 
       axios
         .patch('http://localhost:5000/api/users/me', fd, {
@@ -161,6 +194,9 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+          if (err.response.data.message === 'Invalid username') {
+            this.wrongUser = true;
+          }
         });
     },
   },
@@ -221,7 +257,19 @@ export default {
   top: 190px;
   margin-right: 150px;
 }
-
+.invalid {
+  margin: 0;
+  color: red;
+  position: relative;
+  top: -42px;
+  font-size: 12px;
+  left: 20px;
+}
+.invalidImg {
+  width: 13px;
+  position: relative;
+  bottom: 24px;
+}
 .form-buttons {
   margin-top: 28px !important;
   margin-bottom: 25px !important;
