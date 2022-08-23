@@ -14,7 +14,11 @@ router.route("/").get(userController.getAllUsers);
 router
   .route("/me")
   .get(userController.getMe)
-  .patch(userController.uploadUserPhoto, userController.updateMe);
+  .patch(
+    userController.uploadUserPhoto,
+    userController.resizeUserPhoto,
+    userController.updateMe
+  );
 router.route("/:username").get(userController.getAUser);
 
 module.exports = router;

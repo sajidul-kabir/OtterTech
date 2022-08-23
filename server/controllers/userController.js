@@ -1,5 +1,6 @@
 const multer = require("multer");
 const bcrypt = require("bcryptjs");
+const sharp = require("sharp");
 const pool = require("../db");
 const filterObj = require("../utils/filterObj");
 const AppError = require("../utils/AppError");
@@ -44,16 +45,7 @@ exports.getMe = catchAsync(async (req, res, next) => {
 
 // Updating User
 
-const multerStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "img/users");
-  },
-  filename: (req, file, cb) => {
-    const ext = file.mimetype.split("/")[1];
-    cb(null, `user-${Date.now()}.${ext}`);
-  },
-});
-
+const multerStorage = multer.memoryStorage();
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
@@ -68,6 +60,20 @@ const upload = multer({
 });
 
 exports.uploadUserPhoto = upload.single("user_photo");
+
+exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
+  if (!req.file) return next();
+
+  req.file.filename = `user-${Date.now()}.jpeg`;
+
+  await sharp(req.file.buffer)
+    .resize(500, 500)
+    .toFormat("jpeg")
+    .jpeg({ quality: 90 })
+    .toFile(`img/users/${req.file.filename}`);
+
+  next();
+});
 
 exports.updateMe = catchAsync(async (req, res, next) => {
   const filteredBody = filterObj(
