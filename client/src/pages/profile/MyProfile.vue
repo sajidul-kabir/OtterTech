@@ -57,21 +57,21 @@
             </div>
           </div>
         </div>
-        <form class="body-container-form__form">
+        <form class="body-container-form__form" @submit.prevent="profileUpdate">
           <div class="user-box">
-            <input type="text" name="" required="" />
+            <input type="text" name="" required="" v-model="username" />
             <label>Change Username</label>
           </div>
           <div class="user-box">
-            <input type="text" name="" required="" />
+            <input type="text" name="" required="" v-model="fullname" />
             <label>Change Fullname</label>
           </div>
           <div class="user-box">
-            <input type="text" name="" required="" />
+            <input type="text" name="" required="" v-model="email" />
             <label>Change Email-Address</label>
           </div>
           <div class="user-box">
-            <input type="password" name="" required="" />
+            <input type="password" name="" />
             <label>Change Password</label>
           </div>
 
@@ -86,9 +86,27 @@
 import TheHeader from '../../components/layout/TheHeader.vue';
 import axios from 'axios';
 export default {
+  created() {
+    axios
+      .get('http://localhost:5000/api/users/me')
+      .then((res) => {
+        console.log(res);
+        this.username = res.data.data[0].username;
+        this.fullname = res.data.data[0].fullname;
+        this.email = res.data.data[0].email;
+        this.user_photo = res.data.data[0].user_photo;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
   data() {
     return {
       user_photo: 'user.png',
+      username: '',
+      fullname: '',
+      email: '',
+      password: '',
     };
   },
   methods: {
@@ -119,8 +137,31 @@ export default {
       let photo =
         this.user_photo.length > 200
           ? this.user_photo
-          : '/assets/' + this.user_photo;
+          : 'http://localhost:5000/' + this.user_photo;
       return photo;
+    },
+    profileUpdate() {
+      const fd = new FormData();
+      fd.append('user_photo', this.user_photo);
+      fd.append('username', this.username);
+      fd.append('email', this.email);
+      fd.append('fullname', this.fullname);
+
+      axios
+        .patch('http://localhost:5000/api/users/me', fd, {
+          headers: {
+            'Content-Type': `multipart/form-data;`,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .then(() => {
+          this.$router.push('/login');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
   components: { TheHeader },
@@ -270,12 +311,13 @@ export default {
   background: #2b282c;
   color: white;
   padding: 10px 17px;
-  padding-bottom: 12px;
-  box-shadow: 1px 1px 3px black;
+  padding-bottom: 13px;
+
   border-radius: 6px;
 }
 .file-custom:hover {
   cursor: pointer;
+  box-shadow: 1px 1px 3px black;
 }
 input[type='file'] {
   display: none;

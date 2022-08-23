@@ -96,7 +96,8 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   let any_user = await pool.query(username_query, [filteredBody.username]);
   // console.log(any_user[0]);
   if (any_user[0].length > 0) {
-    return next(new AppError("Invalid username", 404));
+    if (req.user != filteredBody.username)
+      return next(new AppError("Invalid username", 404));
   }
   let update_query = "UPDATE users SET ? WHERE username = ?";
   await pool.query(update_query, [filteredBody, req.user]);
