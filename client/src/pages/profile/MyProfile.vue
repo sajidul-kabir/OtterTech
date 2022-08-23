@@ -16,8 +16,13 @@
         <h2 class="profile-h2">Public Profile</h2>
         <div class="public-profile-photo">
           <div class="public-profile-photo-pic">
-            <v-avatar color="grey lighten-1" size="128">
-              <v-icon color="black" size="80"> mdi-account </v-icon>
+            <v-avatar color="grey lighten-1" size="150">
+              <!-- <div class="profile-img"></div> -->
+              <img
+                class="img-circle"
+                :src="getProfilePhoto()"
+                alt="User Avatar"
+              />
             </v-avatar>
           </div>
 
@@ -28,6 +33,7 @@
                 large
                 class="profile-change-picture pt-4 pb-7"
                 >Change Picture
+                <input type="file" @change="onFileSelected" />
               </v-btn>
             </div>
             <div class="my-2">
@@ -66,6 +72,11 @@
 import TheHeader from '../../components/layout/TheHeader.vue';
 import axios from 'axios';
 export default {
+  data() {
+    return {
+      user_photo: 'user.png',
+    };
+  },
   methods: {
     logout() {
       axios
@@ -77,6 +88,25 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    onFileSelected(e) {
+      let file = e.target.files[0];
+      let reader = new FileReader();
+      let limit = 1024 * 1024 * 2;
+      if (file['size'] > limit) {
+        console.log('largeeeeeeeee');
+      }
+      reader.onloadend = () => {
+        this.user_photo = reader.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    getProfilePhoto() {
+      let photo =
+        this.user_photo.length > 200
+          ? this.user_photo
+          : '/assets/' + this.user_photo;
+      return photo;
     },
   },
   components: { TheHeader },
@@ -153,6 +183,14 @@ export default {
 }
 .public-profile-photo-pic {
   margin-right: 55px;
+}
+.profile-img {
+  background-image: url('../../../public/assets/user.png');
+  width: 150px;
+  background-position: center;
+  height: 150px;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .body-container-form__form {
   margin-top: 55px;
