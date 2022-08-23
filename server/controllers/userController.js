@@ -1,5 +1,6 @@
-const pool = require("../db");
+const multer = require("multer");
 const bcrypt = require("bcryptjs");
+const pool = require("../db");
 const filterObj = require("../utils/filterObj");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
@@ -42,20 +43,54 @@ exports.getMe = catchAsync(async (req, res, next) => {
 });
 
 // Updating User
+
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "img/users");
+  },
+  filename: (req, file, cb) => {
+    const ext = file.mimetype.split("/")[1];
+    cb(null, `user-${Date.now()}.${ext}`);
+  },
+});
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb(new AppError("Not an image! Please upload only images.", 400), false);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+exports.uploadUserPhoto = upload.single("user_photo");
+
 exports.updateMe = catchAsync(async (req, res, next) => {
   const filteredBody = filterObj(
     req.body,
     "username",
     "fullname",
     "email",
-    "password"
+    "password",
+    "user_photo"
   );
+  if (req.file) filteredBody.user_photo = req.file.filename;
 
   //Hashing Password
   if (filteredBody.password) {
     const salt = bcrypt.genSaltSync(12);
     const hash = bcrypt.hashSync(filteredBody.password, salt);
     filteredBody.password = hash;
+  }
+  let username_query = "SELECT * FROM users WHERE users.username=?";
+  let any_user = await pool.query(username_query, [filteredBody.username]);
+  // console.log(any_user[0]);
+  if (any_user[0].length > 0) {
+    return next(new AppError("Invalid username", 404));
   }
   let update_query = "UPDATE users SET ? WHERE username = ?";
   await pool.query(update_query, [filteredBody, req.user]);
