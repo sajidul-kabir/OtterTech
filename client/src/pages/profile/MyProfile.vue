@@ -8,7 +8,7 @@
           <p>FAQ</p>
           <p>Help</p>
           <p>About</p>
-          <button class="log-out">Log out</button>
+          <button class="log-out" @click="logout">Log out</button>
         </div>
       </div>
       <div class="divider-section"></div>
@@ -64,8 +64,21 @@
 
 <script>
 import TheHeader from '../../components/layout/TheHeader.vue';
-
+import axios from 'axios';
 export default {
+  methods: {
+    logout() {
+      axios
+        .get(`http://localhost:5000/api/users/logout`)
+        .then((res) => {
+          console.log(res);
+          this.$router.push('/login');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
   components: { TheHeader },
 };
 </script>

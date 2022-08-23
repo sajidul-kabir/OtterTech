@@ -82,3 +82,11 @@ exports.login = catchAsync(async (req, res, next) => {
 const generateToken = (user) => {
   return jwt.sign(user, process.env.ACCESSKEY);
 };
+
+exports.logout = (req, res) => {
+  res.cookie("jwt", "loggedout", {
+    expires: new Date(Date.now() + 2 * 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({ status: "Logged out" });
+};
