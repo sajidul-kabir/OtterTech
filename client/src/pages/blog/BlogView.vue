@@ -38,7 +38,7 @@
           :style="{ backgroundImage: `url('${path}${coverPhoto}')` }"
         ></div>
       </div>
-      <p class="section1-blog">{{ blog }}</p>
+      <p class="section1-blog" v-html="blog"></p>
       <the-footer></the-footer>
     </section>
   </div>

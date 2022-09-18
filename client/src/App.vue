@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <router-view></router-view>
+      <router-view> </router-view>
     </v-main>
   </v-app>
 </template>
@@ -21,5 +21,16 @@ export default {
   data: () => ({
     //
   }),
+};
+</script> -->
+
+<!-- <script>
+import Tiptap from './components/TiptapTest.vue';
+
+export default {
+  name: 'App',
+  components: {
+    Tiptap,
+  },
 };
 </script> -->

@@ -9,8 +9,11 @@
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
+    "@tiptap/starter-kit": "^2.0.0-beta.195",
+    "@tiptap/vue-3": "^2.0.0-beta.195",
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
+    "remixicon": "^2.5.0",
     "roboto-fontface": "*",
     "vue": "^3.0.0",
     "vue-material": "^1.0.0-beta-15",
@@ -19,15 +22,17 @@
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-service": "^5.0.8",
     "@vue/compiler-sfc": "^3.0.0-0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "sass": "^1.54.9",
+    "sass-loader": "^10.1.1",
     "vue-cli-plugin-vuetify": "~2.5.4",
-    "webpack-plugin-vuetify": "^2.0.0-alpha.0",
-    "@babel/eslint-parser": "^7.12.16",
-    "@babel/core": "^7.12.16"
+    "webpack-plugin-vuetify": "^2.0.0-alpha.0"
   }
 }
