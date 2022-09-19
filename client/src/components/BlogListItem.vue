@@ -20,7 +20,7 @@
           </h2>
         </router-link>
 
-        <p>{{ blog }}</p>
+        <p>{{ sanitizedBlog }}</p>
         <p>By {{ user }}, 2 hours ago</p>
       </div>
     </div>
@@ -30,10 +30,21 @@
 <script>
 export default {
   props: ['id', 'title', 'blog', 'user', 'coverPhoto'],
+  mounted() {
+    this.sanitizedBlog = this.stripHtml(this.blog);
+  },
   data() {
     return {
       path: 'http://localhost:5000/',
+      sanitizedBlog: '',
     };
+  },
+  methods: {
+    stripHtml(html) {
+      let tmp = document.createElement('DIV');
+      tmp.innerHTML = html;
+      return tmp.textContent || tmp.innerText || '';
+    },
   },
 };
 </script>

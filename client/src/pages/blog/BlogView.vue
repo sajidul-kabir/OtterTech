@@ -194,7 +194,5 @@ export default {
 }
 .section1-blog {
   margin: 45px 125px;
-  font-size: 20px;
-  text-align: center;
 }
 </style>

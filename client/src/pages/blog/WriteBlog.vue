@@ -27,7 +27,7 @@
         </textarea>
       </div> -->
       <div v-if="editor">
-        <button
+        <!-- <button
           @click="editor.chain().focus().toggleBold().run()"
           :class="{ 'is-active': editor.isActive('bold') }"
         >
@@ -101,7 +101,17 @@
         </button>
 
         <button @click="editor.chain().focus().undo().run()">undo</button>
-        <button @click="editor.chain().focus().redo().run()">redo</button>
+        <button @click="editor.chain().focus().redo().run()">redo</button> -->
+        <div class="icon-holder">
+          <template v-for="(item, index) in items">
+            <div
+              class="divider"
+              v-if="item.type === 'divider'"
+              :key="`divider${index}`"
+            ></div>
+            <menu-item v-else :key="index" v-bind="item" />
+          </template>
+        </div>
       </div>
       <editor-content :editor="editor" />
 
@@ -116,7 +126,7 @@
           />
           <span class="file-custom">Browse</span>
         </label>
-        <button>Post</button>
+        <button class="submitBtn">Post</button>
       </div>
     </form>
     <the-footer></the-footer>
@@ -130,16 +140,15 @@ import TheFooter from '../../components/layout/TheFooter.vue';
 
 import StarterKit from '@tiptap/starter-kit';
 import { Editor, EditorContent } from '@tiptap/vue-3';
+import MenuItem from '../../components/MenuItem.vue';
 
 export default {
-  components: { TheHeader, TheFooter, EditorContent },
+  components: { TheHeader, TheFooter, EditorContent, MenuItem },
 
   mounted() {
     this.editor = new Editor({
       extensions: [StarterKit],
-      content: `
-         
-        `,
+      content: `My Blog !!! `,
     });
   },
 
@@ -157,6 +166,126 @@ export default {
       },
       cover_photo: null,
       label: 'Choose File...',
+      items: [
+        {
+          icon: 'bold',
+          title: 'Bold',
+          action: () => this.editor.chain().focus().toggleBold().run(),
+          isActive: () => this.editor.isActive('bold'),
+        },
+        {
+          icon: 'italic',
+          title: 'Italic',
+          action: () => this.editor.chain().focus().toggleItalic().run(),
+          isActive: () => this.editor.isActive('italic'),
+        },
+        {
+          icon: 'strikethrough',
+          title: 'Strike',
+          action: () => this.editor.chain().focus().toggleStrike().run(),
+          isActive: () => this.editor.isActive('strike'),
+        },
+        {
+          icon: 'code-view',
+          title: 'Code',
+          action: () => this.editor.chain().focus().toggleCode().run(),
+          isActive: () => this.editor.isActive('code'),
+        },
+        {
+          icon: 'mark-pen-line',
+          title: 'Highlight',
+          action: () => this.editor.chain().focus().toggleHighlight().run(),
+          isActive: () => this.editor.isActive('highlight'),
+        },
+        {
+          type: 'divider',
+        },
+        {
+          icon: 'h-1',
+          title: 'Heading 1',
+          action: () =>
+            this.editor.chain().focus().toggleHeading({ level: 1 }).run(),
+          isActive: () => this.editor.isActive('heading', { level: 1 }),
+        },
+        {
+          icon: 'h-2',
+          title: 'Heading 2',
+          action: () =>
+            this.editor.chain().focus().toggleHeading({ level: 2 }).run(),
+          isActive: () => this.editor.isActive('heading', { level: 2 }),
+        },
+        {
+          icon: 'paragraph',
+          title: 'Paragraph',
+          action: () => this.editor.chain().focus().setParagraph().run(),
+          isActive: () => this.editor.isActive('paragraph'),
+        },
+        {
+          icon: 'list-unordered',
+          title: 'Bullet List',
+          action: () => this.editor.chain().focus().toggleBulletList().run(),
+          isActive: () => this.editor.isActive('bulletList'),
+        },
+        {
+          icon: 'list-ordered',
+          title: 'Ordered List',
+          action: () => this.editor.chain().focus().toggleOrderedList().run(),
+          isActive: () => this.editor.isActive('orderedList'),
+        },
+        {
+          icon: 'list-check-2',
+          title: 'Task List',
+          action: () => this.editor.chain().focus().toggleTaskList().run(),
+          isActive: () => this.editor.isActive('taskList'),
+        },
+        {
+          icon: 'code-box-line',
+          title: 'Code Block',
+          action: () => this.editor.chain().focus().toggleCodeBlock().run(),
+          isActive: () => this.editor.isActive('codeBlock'),
+        },
+        {
+          type: 'divider',
+        },
+        {
+          icon: 'double-quotes-l',
+          title: 'Blockquote',
+          action: () => this.editor.chain().focus().toggleBlockquote().run(),
+          isActive: () => this.editor.isActive('blockquote'),
+        },
+        {
+          icon: 'separator',
+          title: 'Horizontal Rule',
+          action: () => this.editor.chain().focus().setHorizontalRule().run(),
+        },
+        {
+          type: 'divider',
+        },
+        {
+          icon: 'text-wrap',
+          title: 'Hard Break',
+          action: () => this.editor.chain().focus().setHardBreak().run(),
+        },
+        {
+          icon: 'format-clear',
+          title: 'Clear Format',
+          action: () =>
+            this.editor.chain().focus().clearNodes().unsetAllMarks().run(),
+        },
+        {
+          type: 'divider',
+        },
+        {
+          icon: 'arrow-go-back-line',
+          title: 'Undo',
+          action: () => this.editor.chain().focus().undo().run(),
+        },
+        {
+          icon: 'arrow-go-forward-line',
+          title: 'Redo',
+          action: () => this.editor.chain().focus().redo().run(),
+        },
+      ],
     };
   },
 
@@ -195,10 +324,6 @@ export default {
 </script>
 
 <style scoped>
-/* div {
-  align-content: center;
-  margin: auto;
-} */
 .body-container-form__form {
   display: flex;
   flex-direction: column;
@@ -264,7 +389,7 @@ export default {
   box-shadow: 0 0 4px #2b282c;
 }
 
-.body-container-form__form button {
+.submitBtn {
   width: 125px;
   height: 45px;
   background-color: rgb(43, 40, 44);
@@ -311,72 +436,94 @@ input[type='file'] {
   display: none;
 }
 </style>
-<style lang="scss" scoped>
-/* Basic editor styles */
+<style lang="scss">
 .ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
-  }
-
-  ul,
-  ol {
-    padding: 0 1rem;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.1;
-  }
-
-  code {
-    background-color: rgba(#616161, 0.1);
-    color: #616161;
-  }
-
-  pre {
-    background: #0d0d0d;
-    color: #fff;
-    font-family: 'JetBrainsMono', monospace;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-
-    code {
-      color: inherit;
-      padding: 0;
-      background: none;
-      font-size: 0.8rem;
-    }
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-
-  blockquote {
-    padding-left: 1rem;
-    border-left: 2px solid rgba(#0d0d0d, 0.1);
-  }
-
-  hr {
-    border: none;
-    border-top: 2px solid rgba(#0d0d0d, 0.1);
-    margin: 2rem 0;
-  }
-  button {
-    border-style: none;
-    margin: 0px 10px;
-    border: 1px groove;
-    padding: 0px 10px;
-    border-radius: 5px;
-    background: #2b282c14;
-  }
-  p {
-    border: 1px solid red;
-  }
+  min-width: 1200px;
+  min-height: 500px;
+  border: 1px groove;
+  padding: 10px;
+  margin: 10px 0px;
+  margin-bottom: 35px;
 }
+.divider {
+  width: 2px;
+  height: 1.25rem;
+  background-color: rgba(#000, 0.1);
+  margin-left: 0.5rem;
+  margin-right: 0.75rem;
+}
+.icon-holder {
+  display: flex;
+  margin-top: 35px;
+}
+
+/* Basic editor styles */
+
+// .ProseMirror {
+//   > * + * {
+//     margin-top: 0.75em;
+//     height: 500px;
+//   }
+//   .ProseMirror {
+//     height: 500px;
+//     width: 750px;
+//   }
+//   ul,
+//   ol {
+//     padding: 0 1rem;
+//   }
+
+//   h1,
+//   h2,
+//   h3,
+//   h4,
+//   h5,
+//   h6 {
+//     line-height: 1.1;
+//   }
+
+//   code {
+//     background-color: rgba(#616161, 0.1);
+//     color: #616161;
+//   }
+
+//   pre {
+//     background: #0d0d0d;
+//     color: #fff;
+//     font-family: 'JetBrainsMono', monospace;
+//     padding: 0.75rem 1rem;
+//     border-radius: 0.5rem;
+
+//     code {
+//       color: inherit;
+//       padding: 0;
+//       background: none;
+//       font-size: 0.8rem;
+//     }
+//   }
+
+//   img {
+//     max-width: 100%;
+//     height: auto;
+//   }
+
+//   blockquote {
+//     padding-left: 1rem;
+//     border-left: 2px solid rgba(#0d0d0d, 0.1);
+//   }
+
+//   hr {
+//     border: none;
+//     border-top: 2px solid rgba(#0d0d0d, 0.1);
+//     margin: 2rem 0;
+//   }
+//   button {
+//     border-style: none;
+//     margin: 0px 10px;
+//     border: 1px groove;
+//     padding: 0px 10px;
+//     border-radius: 5px;
+//     background: #2b282c14;
+//   }
+// }
 </style>
