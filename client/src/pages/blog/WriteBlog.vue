@@ -12,96 +12,8 @@
         <input type="text" name="title" required="" v-model="newBlog.title" />
         <label>Title</label>
       </div>
-      <!-- <div class="user-box">
-        <textarea
-          name="blog"
-          class="textarea"
-          id="blog"
-          cols="90"
-          rows="15"
-          required=""
-          placeholder="Share Your Story..."
-          v-model="newBlog.blog"
-        >
-        
-        </textarea>
-      </div> -->
-      <div v-if="editor">
-        <!-- <button
-          @click="editor.chain().focus().toggleBold().run()"
-          :class="{ 'is-active': editor.isActive('bold') }"
-        >
-          bold
-        </button>
-        <button
-          @click="editor.chain().focus().toggleItalic().run()"
-          :class="{ 'is-active': editor.isActive('italic') }"
-        >
-          italic
-        </button>
-        <button
-          @click="editor.chain().focus().toggleStrike().run()"
-          :class="{ 'is-active': editor.isActive('strike') }"
-        >
-          strike
-        </button>
-        <button
-          @click="editor.chain().focus().toggleCode().run()"
-          :class="{ 'is-active': editor.isActive('code') }"
-        >
-          code
-        </button>
-        <button @click="editor.chain().focus().unsetAllMarks().run()">
-          clear marks
-        </button>
-        <button @click="editor.chain().focus().clearNodes().run()">
-          clear nodes
-        </button>
-        <button
-          @click="editor.chain().focus().setParagraph().run()"
-          :class="{ 'is-active': editor.isActive('paragraph') }"
-        >
-          paragraph
-        </button>
-        <button
-          @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
-        >
-          h1
-        </button>
-        <button
-          @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
-        >
-          h2
-        </button>
-        <button
-          @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
-        >
-          h3
-        </button>
-        <button
-          @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
-        >
-          h4
-        </button>
-        <button
-          @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
-        >
-          h5
-        </button>
-        <button
-          @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
-        >
-          h6
-        </button>
 
-        <button @click="editor.chain().focus().undo().run()">undo</button>
-        <button @click="editor.chain().focus().redo().run()">redo</button> -->
+      <div v-if="editor">
         <div class="icon-holder">
           <template v-for="(item, index) in items">
             <div
@@ -138,16 +50,18 @@ import axios from 'axios';
 import TheHeader from '../../components/layout/TheHeader.vue';
 import TheFooter from '../../components/layout/TheFooter.vue';
 
+//Tiptap imports
 import StarterKit from '@tiptap/starter-kit';
 import { Editor, EditorContent } from '@tiptap/vue-3';
 import MenuItem from '../../components/MenuItem.vue';
+import Highlight from '@tiptap/extension-highlight';
 
 export default {
   components: { TheHeader, TheFooter, EditorContent, MenuItem },
 
   mounted() {
     this.editor = new Editor({
-      extensions: [StarterKit],
+      extensions: [StarterKit, Highlight],
       content: `My Blog !!! `,
     });
   },
@@ -233,12 +147,6 @@ export default {
           isActive: () => this.editor.isActive('orderedList'),
         },
         {
-          icon: 'list-check-2',
-          title: 'Task List',
-          action: () => this.editor.chain().focus().toggleTaskList().run(),
-          isActive: () => this.editor.isActive('taskList'),
-        },
-        {
           icon: 'code-box-line',
           title: 'Code Block',
           action: () => this.editor.chain().focus().toggleCodeBlock().run(),
@@ -296,7 +204,7 @@ export default {
     },
     submitBlog() {
       this.newBlog.blog = this.editor.getHTML();
-      console.log(this.newBlog);
+
       const fd = new FormData();
       fd.append('cover-photo', this.cover_photo);
       fd.append('user_username', this.newBlog.user_username);
@@ -372,22 +280,6 @@ export default {
   font-size: 20px;
   font-weight: bold;
 }
-.textarea {
-  font-size: 20px;
-  padding: 15px;
-  resize: none;
-  border: 1px groove;
-  margin-bottom: 35px;
-}
-.textarea::placeholder {
-  font-family: 'Inter', sans-serif;
-  font-family: 'Lora', serif;
-}
-.textarea:focus {
-  outline: none !important;
-  border-color: #2b282c;
-  box-shadow: 0 0 4px #2b282c;
-}
 
 .submitBtn {
   width: 125px;
@@ -411,9 +303,7 @@ export default {
   align-items: baseline;
   display: flex;
 }
-.input-file {
-  flex: none;
-}
+
 .file {
   display: flex;
   height: 45px;
@@ -429,7 +319,7 @@ export default {
 }
 .file-custom {
   background-color: #5a5a5a26;
-  padding: 11px;
+  padding: 9px;
   margin-left: 15px;
 }
 input[type='file'] {
@@ -456,74 +346,61 @@ input[type='file'] {
   display: flex;
   margin-top: 35px;
 }
+ul,
+ol {
+  padding: 0 1rem;
+}
 
-/* Basic editor styles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.1;
+}
 
-// .ProseMirror {
-//   > * + * {
-//     margin-top: 0.75em;
-//     height: 500px;
-//   }
-//   .ProseMirror {
-//     height: 500px;
-//     width: 750px;
-//   }
-//   ul,
-//   ol {
-//     padding: 0 1rem;
-//   }
+code {
+  background-color: rgba(#616161, 0.1);
+  color: #616161;
+}
 
-//   h1,
-//   h2,
-//   h3,
-//   h4,
-//   h5,
-//   h6 {
-//     line-height: 1.1;
-//   }
+pre {
+  background: #0d0d0d;
+  color: #fff;
+  font-family: 'JetBrainsMono', monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
 
-//   code {
-//     background-color: rgba(#616161, 0.1);
-//     color: #616161;
-//   }
+  code {
+    color: inherit;
+    padding: 0;
+    background: none;
+    font-size: 0.8rem;
+  }
+}
 
-//   pre {
-//     background: #0d0d0d;
-//     color: #fff;
-//     font-family: 'JetBrainsMono', monospace;
-//     padding: 0.75rem 1rem;
-//     border-radius: 0.5rem;
+mark {
+  background-color: #faf594;
+}
 
-//     code {
-//       color: inherit;
-//       padding: 0;
-//       background: none;
-//       font-size: 0.8rem;
-//     }
-//   }
+img {
+  max-width: 100%;
+  height: auto;
+}
 
-//   img {
-//     max-width: 100%;
-//     height: auto;
-//   }
+hr {
+  margin: 1rem 0;
+}
 
-//   blockquote {
-//     padding-left: 1rem;
-//     border-left: 2px solid rgba(#0d0d0d, 0.1);
-//   }
+blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid rgba(#0d0d0d, 0.1);
+}
 
-//   hr {
-//     border: none;
-//     border-top: 2px solid rgba(#0d0d0d, 0.1);
-//     margin: 2rem 0;
-//   }
-//   button {
-//     border-style: none;
-//     margin: 0px 10px;
-//     border: 1px groove;
-//     padding: 0px 10px;
-//     border-radius: 5px;
-//     background: #2b282c14;
-//   }
-// }
+hr {
+  border: none;
+  border-top: 2px solid rgba(#0d0d0d, 0.1);
+  margin: 2rem 0;
+}
 </style>
