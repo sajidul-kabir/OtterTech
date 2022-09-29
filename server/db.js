@@ -15,6 +15,7 @@ let pool = mysql.createPool({
   // password: "root",
   // database: "OtterTech",
 });
+//let pool = mysql.createPool(process.env.DATABASE_URL);
 console.log("database connected");
 pool = pool.promise();
 

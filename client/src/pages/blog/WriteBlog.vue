@@ -25,7 +25,7 @@
           </template>
         </div>
       </div>
-      <editor-content :editor="editor" />
+      <editor-content :editor="editor" @keypress="editorCheck" />
 
       <div class="form-buttons">
         <label class="file"
@@ -73,6 +73,7 @@ export default {
   data() {
     return {
       editor: null,
+      wooord: '',
       newBlog: {
         title: '',
         blog: '',
@@ -196,14 +197,60 @@ export default {
       ],
     };
   },
-
+  // watch: {
+  //   editor(v, x) {
+  //     // if (v.getText() === '#') {
+  //     //   console.log('used');
+  //     //   return () => this.editor.chain().focus().toggleBold().run();
+  //     console.log(v, x);
+  //   },
+  // },
   methods: {
     onFileSelected(e) {
       this.cover_photo = e.target.files[0];
       this.label = e.target.files[0].name;
     },
+    parseBlogForTags() {
+      let words = this.editor.getText().split(' ');
+      let tagWords = [];
+
+      words.forEach((word) => {
+        if (word[0] === '#') {
+          tagWords.push(word);
+        }
+      });
+      console.log(tagWords);
+    },
+    editorCheck(v) {
+      if (v.key === ' ') {
+        if (this.wooord[0] === '#') {
+          console.log('tag');
+
+          this.wooord.toUpperCase();
+          console.log(this.editor.getHTML());
+          // console.log(this.editor.chain());
+          // this.editor
+          //   .chain()
+          //   .focus()
+          //   .command(({ tr }) => {
+          //     // manipulate the transaction
+          //     tr.insertText('**ts**');
+
+          //     return true;
+          //   })
+          //   .toggleBold()
+          //   .run();
+        }
+        this.wooord = '';
+      } else {
+        this.wooord = this.wooord + v.key;
+      }
+    },
+
     submitBlog() {
+      console.log(this.editor.getText());
       this.newBlog.blog = this.editor.getHTML();
+      this.parseBlogForTags();
 
       const fd = new FormData();
       fd.append('cover-photo', this.cover_photo);
