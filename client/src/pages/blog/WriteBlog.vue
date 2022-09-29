@@ -222,24 +222,12 @@ export default {
       console.log(tagWords);
     },
     editorCheck(v) {
-      if (v.key === ' ') {
+      if (v.key === '#') {
+        this.editor.commands.setBold();
+        this.wooord = this.wooord + v.key;
+      } else if (v.key === ' ') {
         if (this.wooord[0] === '#') {
-          console.log('tag');
-
-          this.wooord.toUpperCase();
-          console.log(this.editor.getHTML());
-          // console.log(this.editor.chain());
-          // this.editor
-          //   .chain()
-          //   .focus()
-          //   .command(({ tr }) => {
-          //     // manipulate the transaction
-          //     tr.insertText('**ts**');
-
-          //     return true;
-          //   })
-          //   .toggleBold()
-          //   .run();
+          this.editor.commands.unsetBold();
         }
         this.wooord = '';
       } else {
