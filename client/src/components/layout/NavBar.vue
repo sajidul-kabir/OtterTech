@@ -3,16 +3,19 @@
     <nav>
       <ul class="first-section-nav-lists">
         <li class="first-section-nav-list">
-          <a href="#">News</a>
+          <a href="#">Technology</a>
         </li>
         <li class="first-section-nav-list">
-          <a href="#">Jobs</a>
+          <a href="#">Gaming</a>
         </li>
         <li class="first-section-nav-list">
-          <a href="#">Events</a>
+          <a href="#">Entertainment</a>
         </li>
         <li class="first-section-nav-list">
-          <a href="#">About</a>
+          <a href="#">Products</a>
+        </li>
+        <li class="first-section-nav-list">
+          <a href="#">Others</a>
         </li>
       </ul>
       <div class="post hvr-sweep-to-right">
