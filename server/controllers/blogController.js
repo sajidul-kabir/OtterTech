@@ -33,6 +33,18 @@ const upload = multer({
 });
 exports.uploadCoverPhoto = upload.single("cover-photo");
 
+exports.getGamingNews = async (req, res, next) => {
+  const gameTagQuery =
+    " SELECT  blogs.id,blogs.title,blogs.blog,blogs.cover_photo,blogs.user_username,blogs.created_at,tag_name from blogs INNER join tags ON blogs.id=tags.blog_id where tags.tag_name like '%game%' || tags.tag_name like '%gaming%' GROUP BY blogs.id";
+  const gamingNews = await pool.execute(gameTagQuery);
+
+  res.status(200).json({
+    message: "successful",
+    total: gamingNews[0].length,
+    data: gamingNews[0],
+  });
+};
+
 // Blog Selection
 exports.getAllBlogs = catchAsync(async (req, res, next) => {
   const blogs = await getOrSetCache(
@@ -61,7 +73,7 @@ exports.getABlog = catchAsync(async (req, res, next) => {
   }
 
   const blog_query =
-    "SELECT  blogs.id,blogs.title,blogs.blog,blogs.cover_photo,blogs.user_username,blogs.created_at from blogs WHERE blogs.id = ?";
+    "SELECT  blogs.id,blogs.title,blogs.blog,blogs.cover_photo,blogs.user_username,blogs.created_at,GROUP_CONCAT(tags.tag_name) as tags  from blogs INNER join tags on tags.blog_id=blogs.id WHERE blogs.id = ? ";
   const blog = await pool.execute(blog_query, [blogId]);
   if (blog[0].length === 0) {
     return next(new AppError("Invalid ID", 404));

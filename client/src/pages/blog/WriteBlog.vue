@@ -197,14 +197,7 @@ export default {
       ],
     };
   },
-  // watch: {
-  //   editor(v, x) {
-  //     // if (v.getText() === '#') {
-  //     //   console.log('used');
-  //     //   return () => this.editor.chain().focus().toggleBold().run();
-  //     console.log(v, x);
-  //   },
-  // },
+
   methods: {
     onFileSelected(e) {
       this.cover_photo = e.target.files[0];

@@ -11,6 +11,8 @@ router
   .get(blogController.getAllBlogs)
   .post(blogController.uploadCoverPhoto, blogController.createABlog);
 
+router.route("/gaming").get(blogController.getGamingNews);
+
 router.route("/me").get(blogController.getMyBlogs);
 router.route("/most-popular").get(blogController.mostPopular);
 router.route("/seeMyUpvote/:blogId").get(blogController.yourUpvote);

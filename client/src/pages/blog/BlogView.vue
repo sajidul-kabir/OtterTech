@@ -28,10 +28,10 @@
             <img src="/assets/facebook.png" alt="facebook" />
           </div>
           <div class="section1-content__author--divider"></div>
-          <p class="tags">
-            Tags Used in this article: Gaming, Elden Ring, FromSoftware,
-            Popular, PS5
+          <p class="tags" v-if="tags">
+            Tags Used in this article: <b>{{ tags }}</b>
           </p>
+          <p class="tags" v-else>Tags Used in this article: <b>NONE</b></p>
         </div>
         <div
           class="section1-content__img"
@@ -60,6 +60,7 @@ export default {
         this.author = res.data.data[0].user_username;
         this.blog = res.data.data[0].blog;
         this.upvotes = res.data.data[0].total_upvotes;
+        this.tags = res.data.data[0].tags;
       })
       .catch((err) => {
         console.log(err);
@@ -86,6 +87,7 @@ export default {
       blog: '',
       upvotes: '',
       liked: 'false',
+      tags: 'NONE',
       path: 'http://localhost:5000/',
     };
   },
