@@ -15,6 +15,9 @@
           <a href="#">Products</a>
         </li>
         <li class="first-section-nav-list">
+          <a href="#">Reviews</a>
+        </li>
+        <li class="first-section-nav-list">
           <a href="#">Others</a>
         </li>
       </ul>

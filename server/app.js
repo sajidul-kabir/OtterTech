@@ -9,7 +9,7 @@ const globalErrorHandler = require("./controllers/errorController");
 const app = express();
 app.use(express.static("./img/blogs/"));
 app.use(express.static("./img/users/"));
-app.use(cors({ origin: ["http://localhost:8194"], credentials: true }));
+app.use(cors({ origin: ["http://localhost:8080"], credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 

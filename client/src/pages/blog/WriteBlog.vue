@@ -212,7 +212,20 @@ export default {
           tagWords.push(word);
         }
       });
-      console.log(tagWords);
+      return tagWords;
+    },
+    assembleTags(tags, blog_id) {
+      const tagsObj = {};
+      let tagsArr = [];
+
+      tags.forEach((tag) => {
+        tagsArr.push({
+          blog_id,
+          tag_name: tag,
+        });
+      });
+      tagsObj.items = tagsArr;
+      return tagsObj;
     },
     editorCheck(v) {
       if (v.key === '#') {
@@ -229,9 +242,9 @@ export default {
     },
 
     submitBlog() {
-      console.log(this.editor.getText());
+      let tags_final;
       this.newBlog.blog = this.editor.getHTML();
-      this.parseBlogForTags();
+      let tagWords = this.parseBlogForTags();
 
       const fd = new FormData();
       fd.append('cover-photo', this.cover_photo);
@@ -246,7 +259,11 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
+          tags_final = this.assembleTags(tagWords, res.data.data.insertId);
+          console.log(tags_final);
+        })
+        .then(() => {
+          axios.post('http://localhost:5000/api/blogs/tags', tags_final);
         })
         .then(() => {
           this.$router.push('/');
