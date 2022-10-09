@@ -81,6 +81,7 @@ export default {
 }
 .icon-holder {
   margin-top: 10px;
+  justify-content: center;
 }
 .footer-holder--row {
   flex-wrap: nowrap;

@@ -3,22 +3,22 @@
     <nav>
       <ul class="first-section-nav-lists">
         <li class="first-section-nav-list">
-          <a href="#">Technology</a>
+          <router-link to="/technology">Technology</router-link>
         </li>
         <li class="first-section-nav-list">
-          <a href="#">Gaming</a>
+          <router-link to="/gaming">Gaming</router-link>
         </li>
         <li class="first-section-nav-list">
-          <a href="#">Entertainment</a>
+          <router-link to="/entertainment">Entertainment</router-link>
         </li>
         <li class="first-section-nav-list">
-          <a href="#">Products</a>
+          <router-link to="/products">Products</router-link>
         </li>
         <li class="first-section-nav-list">
-          <a href="#">Reviews</a>
+          <router-link to="/reviews">Reviews</router-link>
         </li>
         <li class="first-section-nav-list">
-          <a href="#">Others</a>
+          <router-link to="/others">Others</router-link>
         </li>
       </ul>
       <div class="post hvr-sweep-to-right">
