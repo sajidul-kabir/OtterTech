@@ -27,7 +27,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .section-2-wrapper {
   margin: 30px 90px;
   margin-left: 150px;

@@ -1,0 +1,112 @@
+<template>
+  <div class="first-section">
+    <nav>
+      <ul class="first-section-nav-lists">
+        <li class="first-section-nav-list">
+          <router-link to="/technology">Technology</router-link>
+        </li>
+        <li class="first-section-nav-list">
+          <router-link to="/gaming">Gaming</router-link>
+        </li>
+        <li class="first-section-nav-list">
+          <router-link to="/entertainment">Entertainment</router-link>
+        </li>
+        <li class="first-section-nav-list">
+          <router-link to="/products">Products</router-link>
+        </li>
+        <li class="first-section-nav-list">
+          <router-link to="/reviews">Reviews</router-link>
+        </li>
+        <li class="first-section-nav-list">
+          <router-link to="/others">Others</router-link>
+        </li>
+      </ul>
+      <div class="post hvr-sweep-to-right">
+        <p><router-link to="/write-blog">Post</router-link></p>
+      </div>
+    </nav>
+  </div>
+</template>
+
+<style scoped>
+.first-section {
+  background-color: #2b282c;
+  height: 360px;
+}
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.first-section-nav-lists {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+.first-section-nav-list {
+  list-style: none;
+  padding: 18px 23px;
+}
+.first-section a {
+  text-decoration: none;
+  color: #ffffffc7;
+  font-size: 17px;
+}
+.first-section a:hover {
+  color: white;
+  /* text-decoration: underline solid white 1px; */
+}
+
+.post {
+  padding: 1px 10px;
+}
+.post p {
+  color: white;
+  font-size: 17px;
+  margin: 0;
+}
+.hvr-sweep-to-right {
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  position: relative;
+  -webkit-transition-property: color;
+  transition-property: color;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+}
+.hvr-sweep-to-right:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #746657;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transform-origin: 0 50%;
+  transform-origin: 0 50%;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.hvr-sweep-to-right:hover,
+.hvr-sweep-to-right:focus,
+.hvr-sweep-to-right:active {
+  color: white;
+}
+.hvr-sweep-to-right:hover:before,
+.hvr-sweep-to-right:focus:before,
+.hvr-sweep-to-right:active:before {
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+</style>
