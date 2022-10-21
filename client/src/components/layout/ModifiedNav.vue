@@ -31,7 +31,7 @@
 <style scoped>
 .first-section {
   background-color: #2b282c;
-  height: 360px;
+  height: 75px;
 }
 nav {
   display: flex;

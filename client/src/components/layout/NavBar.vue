@@ -25,8 +25,10 @@
         <p><router-link to="/write-blog">Post</router-link></p>
       </div>
     </nav>
-    <div class="purple-div"></div>
-    <h2 class="first-section-popular">Popular Now</h2>
+    <div class="something">
+      <div class="purple-div"></div>
+      <h2 class="first-section-popular">Popular Now</h2>
+    </div>
   </div>
 </template>
 
@@ -111,6 +113,8 @@ nav {
   -webkit-transform: scaleX(1);
   transform: scaleX(1);
 }
+</style>
+<style>
 .purple-div {
   position: relative;
   /* margin-top: 2px; */

@@ -1,6 +1,6 @@
 <template>
   <TheHeader></TheHeader>
-  <modified-nav></modified-nav>
+  <ModifiedNav></ModifiedNav>
   <div class="section-2-wrapper mt-12">
     <div class="section-2-purple"></div>
     <h1 class="section-2-header">Latest Gaming</h1>
@@ -26,8 +26,8 @@
 import axios from 'axios';
 import BlogListItem from '../../components/BlogListItem.vue';
 import TheHeader from '../../components/layout/TheHeader.vue';
-import ModifiedNav from '../../components/layout/ModifiedNav.vue';
 import TheFooter from '../../components/layout/TheFooter.vue';
+import ModifiedNav from '../../components/layout/ModifiedNav.vue';
 export default {
   created() {
     axios
@@ -45,11 +45,7 @@ export default {
       blogs: [],
     };
   },
+  methods: {},
   components: { TheHeader, BlogListItem, TheFooter, ModifiedNav },
 };
 </script>
-<style scoped>
-.first-section {
-  height: 75px !important;
-}
-</style>

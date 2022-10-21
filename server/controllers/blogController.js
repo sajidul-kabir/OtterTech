@@ -61,16 +61,26 @@ exports.getABlog = catchAsync(async (req, res, next) => {
   }
 
   const blog_query =
-    "SELECT  blogs.id,blogs.title,blogs.blog,blogs.cover_photo,blogs.user_username,blogs.created_at,GROUP_CONCAT(tags.tag_name) as tags  from blogs INNER join tags on tags.blog_id=blogs.id WHERE blogs.id = ? ";
+    //"SELECT  blogs.id,blogs.title,blogs.blog,blogs.cover_photo,blogs.user_username,blogs.created_at,GROUP_CONCAT(tags.tag_name) as tags  from blogs INNER join tags on tags.blog_id=blogs.id WHERE blogs.id = ? Group By blogs.id,blogs.title,blogs.blog,blogs.cover_photo,blogs.user_username,blogs.created_at";
+    "SELECT  blogs.id,blogs.title,blogs.blog,blogs.cover_photo,blogs.user_username,blogs.created_at from blogs WHERE blogs.id = ? ";
+
   const blog = await pool.execute(blog_query, [blogId]);
+
   if (blog[0].length === 0) {
     return next(new AppError("Invalid ID", 404));
   }
+
+  const tag_query =
+    "SELECT GROUP_CONCAT(tags.tag_name) as tags  from blogs INNER join tags on tags.blog_id=blogs.id WHERE blogs.id = ?";
+  const tags = await pool.execute(tag_query, [blogId]);
+
   const upvote_query =
     "SELECT COUNT(*) as total_upvotes FROM upvotes WHERE blog_id = ?";
   const upvotes = await pool.execute(upvote_query, [blogId]);
 
   blog[0][0].total_upvotes = upvotes[0][0].total_upvotes;
+  blog[0][0].tags = tags[0][0].tags;
+  //const blog = await pool.execute(blog_query);
   res.status(200).json({
     message: "successful",
     data: blog[0],
