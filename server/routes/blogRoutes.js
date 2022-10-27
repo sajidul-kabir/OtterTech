@@ -23,6 +23,11 @@ router.route("/upvotes/:blogId").delete(blogController.deleteUpvote);
 // Tag Based Searching
 router.route("/tags").post(tagController.tagCreate);
 router.route("/tags/gaming").get(tagController.getGamingNews);
+router.route("/tags/technology").get(tagController.getTechNews);
+router.route("/tags/entertainment").get(tagController.getEntertainmentNews);
+router.route("/tags/products").get(tagController.getProductNews);
+router.route("/tags/reviews").get(tagController.getReviewNews);
+router.route("/tags/others").get(tagController.getOtherNews);
 
 // Specific Blog-wise Functions
 router

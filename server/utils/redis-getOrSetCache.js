@@ -14,13 +14,13 @@ exports.getOrSetCache = async function (
     } else {
       console.log("STALE DATA CACHE MISS");
       const freshData = await cb();
-      redisClient.setEx(key, 60, JSON.stringify(freshData));
+      redisClient.setEx(key, 20, JSON.stringify(freshData));
       return freshData;
     }
   } else {
     console.log("CACHE MISS");
     const freshData = await cb();
-    redisClient.setEx(key, 60, JSON.stringify(freshData));
+    redisClient.setEx(key, 20, JSON.stringify(freshData));
     return freshData;
   }
 };

@@ -2,11 +2,10 @@
   <div>
     <the-header></the-header>
 
-    <form
+    <div
       class="body-container-form__form"
       method="post"
       enctype="multipart/form-data"
-      @submit.prevent="submitBlog"
     >
       <div class="user-box">
         <input type="text" name="title" required="" v-model="newBlog.title" />
@@ -38,9 +37,9 @@
           />
           <span class="file-custom">Browse</span>
         </label>
-        <button class="submitBtn">Post</button>
+        <button class="submitBtn" @click="submitBlog">Post</button>
       </div>
-    </form>
+    </div>
     <the-footer></the-footer>
   </div>
 </template>
@@ -205,6 +204,8 @@ export default {
     },
     parseBlogForTags() {
       let words = this.editor.getText().split(' ');
+      console.log(words);
+
       let tagWords = [];
 
       words.forEach((word) => {
@@ -245,6 +246,8 @@ export default {
       let tags_final;
       this.newBlog.blog = this.editor.getHTML();
       let tagWords = this.parseBlogForTags();
+
+      console.log(tagWords);
 
       const fd = new FormData();
       fd.append('cover-photo', this.cover_photo);

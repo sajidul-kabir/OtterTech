@@ -177,14 +177,15 @@ export default {
   cursor: pointer;
 }
 .section1-content__img {
-  width: 40%;
+  width: 55%;
   height: 455px;
-  margin-left: 75px;
+  margin-left: 30px;
   background-repeat: no-repeat;
   background-size: auto;
   background-position: center;
   position: relative;
   top: 15px;
+  border: 1px groove;
 }
 .like-count {
   display: none;
@@ -195,6 +196,6 @@ export default {
   display: block;
 }
 .section1-blog {
-  margin: 45px 125px;
+  margin: 125px 125px;
 }
 </style>
