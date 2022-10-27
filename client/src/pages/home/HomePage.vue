@@ -1,6 +1,6 @@
 <template>
   <div>
-    <the-header :user="username"></the-header>
+    <the-header :user="username" :photo="photo"></the-header>
     <popular-blogs :popular="popularBlogs"></popular-blogs>
     <blog-list :blogs="blogs"></blog-list>
     <the-footer></the-footer>
@@ -25,6 +25,9 @@ export default {
           this.$router.push('/login');
         } else {
           console.log(res.data.data[0].username);
+          if (res.data.data[0].user_photo) {
+            this.photo = res.data.data[0].user_photo;
+          }
           this.username = res.data.data[0].username;
           window.localStorage.setItem('username', this.username);
         }
@@ -56,6 +59,7 @@ export default {
       blogs: [],
       popularBlogs: [],
       username: '',
+      photo: null,
     };
   },
   // provide() {

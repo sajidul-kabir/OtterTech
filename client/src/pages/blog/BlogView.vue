@@ -5,7 +5,12 @@
       <h1>{{ title }}</h1>
       <div class="section1-content">
         <div class="section1-content__author">
-          <div class="section1-content__author--profile"></div>
+          <div
+            v-if="authorPhoto"
+            class="section1-content__author--profile--img"
+            :style="{ backgroundImage: `url('${path}${authorPhoto}')` }"
+          ></div>
+          <div v-else class="section1-content__author--profile"></div>
           <p class="author">Author {{ author }}</p>
           <div class="section1-content__author--divider"></div>
           <div class="section1-content__author--icon">
@@ -62,6 +67,16 @@ export default {
         this.upvotes = res.data.data[0].total_upvotes;
         this.tags = res.data.data[0].tags;
       })
+      .then(() => {
+        axios
+          .get(`http://localhost:5000/api/users/${this.author}`)
+          .then((res) => {
+            this.authorPhoto = res.data.data[0].user_photo;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -89,6 +104,7 @@ export default {
       liked: 'false',
       tags: 'NONE',
       path: 'http://localhost:5000/',
+      authorPhoto: null,
     };
   },
   methods: {
@@ -149,6 +165,14 @@ export default {
   align-items: center;
   justify-content: center;
 }
+.section1-content__author--profile--img {
+  width: 30px;
+  height: 30px;
+  background: gray;
+  border-radius: 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .section1-content__author--profile {
   width: 30px;
   height: 30px;
@@ -186,6 +210,7 @@ export default {
   position: relative;
   top: 15px;
   border: 1px groove;
+  background-size: cover;
 }
 .like-count {
   display: none;

@@ -6,11 +6,16 @@
       /></router-link>
     </div>
     <div class="header-icons">
-      <p class="header-icons--profile">A</p>
+      <div
+        v-if="photo"
+        class="header-icons--img"
+        :style="{ backgroundImage: `url('${path}${photo}')` }"
+      ></div>
+      <div v-else class="header-icons--profile">A</div>
       <img
         class="header-dd"
         src="/assets/615-6156460_grey-triangle-no-background-png-download-arrow-transparent-removebg-preview.png"
-        alt=""
+        alt="default.png"
         @click="dropDown"
       />
       <div class="dropdown" :style="{ display: dd ? 'table' : 'none' }">
@@ -27,11 +32,13 @@
 
 <script>
 export default {
-  props: ['user'],
+  props: ['user', 'photo'],
   data() {
     return {
       initial: this.user,
       dd: false,
+      path: 'http://localhost:5000/',
+      final: this.path + this.photo,
     };
   },
   methods: {
@@ -60,7 +67,18 @@ header img {
 header img:hover {
   cursor: pointer;
 }
-
+.header-icons--img {
+  width: 40px;
+  height: 40px;
+  border-radius: 43px;
+  background-color: #5c5249;
+  text-align: center;
+  font-size: 22px;
+  padding: 4px;
+  color: #eeeeee;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .header-icons--profile {
   width: 40px;
   height: 40px;
