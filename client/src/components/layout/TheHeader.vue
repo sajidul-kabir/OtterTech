@@ -11,7 +11,7 @@
         class="header-icons--img"
         :style="{ backgroundImage: `url('${path}${photo}')` }"
       ></div>
-      <div v-else class="header-icons--profile">{{ initial[0] }}</div>
+      <div v-else class="header-icons--profile">O</div>
       <img
         class="header-dd"
         src="/assets/615-6156460_grey-triangle-no-background-png-download-arrow-transparent-removebg-preview.png"
@@ -32,9 +32,7 @@
 <script>
 export default {
   props: ['user', 'photo'],
-  created() {
-    this.initial = window.localStorage.getItem('username');
-  },
+
   data() {
     return {
       initial: '',

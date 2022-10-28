@@ -34,8 +34,10 @@ export default {
 
           //store.state.username = this.username;
 
-          this.$store.commit('change', res.data.data[0].username);
-          console.log(this.$store.state.username);
+          let xxx = this.$store.getters.get.username;
+          this.$store.commit('change', xxx);
+          // window.localStorage.setItem('username', res.data.data[0].username);
+          // console.log(this.$store.state.username);
         }
       })
       .catch((err) => {

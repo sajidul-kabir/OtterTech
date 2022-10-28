@@ -1,5 +1,5 @@
 <template>
-  <TheHeader></TheHeader>
+  <TheHeader :user="username" :photo="photo"></TheHeader>
   <ModifiedNav></ModifiedNav>
 
   <div class="content-holder">
@@ -11,7 +11,7 @@
       ></div>
       <div v-else class="author-section--img"></div>
       <p class="author-section--info">Author {{ username }}</p>
-      <p style="font-weight: 600">Total: {{ total }}</p>
+      <p style="font-weight: 600">Total Blogs Written: {{ total }}</p>
     </div>
     <div class="section-2">
       <div class="section-2-purple"></div>
@@ -43,11 +43,6 @@ import TheHeader from '../../components/layout/TheHeader.vue';
 import TheFooter from '../../components/layout/TheFooter.vue';
 import ModifiedNav from '../../components/layout/ModifiedNav.vue';
 export default {
-  beforeCreate() {
-    if (this.$store.state.username === '') {
-      this.$router.push('/login');
-    }
-  },
   created() {
     axios
       .get('http://localhost:5000/api/blogs/me')

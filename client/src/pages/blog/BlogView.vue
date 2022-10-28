@@ -1,6 +1,6 @@
 <template>
   <div>
-    <the-header></the-header>
+    <the-header :user="username" :photo="photo"></the-header>
     <section class="section1">
       <h1>{{ title }}</h1>
       <div class="section1-content">
@@ -55,12 +55,21 @@ import TheHeader from '../../components/layout/TheHeader.vue';
 import TheFooter from '../../components/layout/TheFooter.vue';
 export default {
   props: ['blogId'],
-  beforeCreate() {
-    if (this.$store.state.username === '') {
-      this.$router.push('/login');
-    }
-  },
+
   created() {
+    axios
+      .get('http://localhost:5000/api/users/me')
+      .then((res) => {
+        //console.log(this.$store.state.username);
+        this.username = res.data.data[0].username;
+        if (res.data.data[0].user_photo) {
+          this.photo = res.data.data[0].user_photo;
+        }
+        //console.log(this.username);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     const id = this.$route.params.blogId;
     axios
       .get(`http://localhost:5000/api/blogs/${id}`)
@@ -110,6 +119,8 @@ export default {
       tags: 'NONE',
       path: 'http://localhost:5000/',
       authorPhoto: null,
+      username: '',
+      photo: null,
     };
   },
   methods: {

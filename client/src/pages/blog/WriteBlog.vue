@@ -1,6 +1,6 @@
 <template>
   <div>
-    <the-header></the-header>
+    <the-header :user="username" :photo="photo"></the-header>
 
     <div
       class="body-container-form__form"
@@ -57,10 +57,20 @@ import Highlight from '@tiptap/extension-highlight';
 
 export default {
   components: { TheHeader, TheFooter, EditorContent, MenuItem },
-  beforeCreate() {
-    if (this.$store.state.username === '') {
-      this.$router.push('/login');
-    }
+  created() {
+    axios
+      .get('http://localhost:5000/api/users/me')
+      .then((res) => {
+        //console.log(this.$store.state.username);
+        this.username = res.data.data[0].username;
+        if (res.data.data[0].user_photo) {
+          this.photo = res.data.data[0].user_photo;
+        }
+        //console.log(this.username);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 
   mounted() {
@@ -77,11 +87,12 @@ export default {
   data() {
     return {
       editor: null,
+      username: '',
+      photo: null,
       wooord: '',
       newBlog: {
         title: '',
         blog: '',
-        user_username: window.localStorage.getItem('username'),
       },
       cover_photo: null,
       label: 'Choose File...',

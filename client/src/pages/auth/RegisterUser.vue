@@ -67,6 +67,7 @@ export default {
           console.log(res);
         })
         .then(() => {
+          this.$store.commit('change', this.user.username);
           this.$router.push('/');
         })
         .catch((err) => {

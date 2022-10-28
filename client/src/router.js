@@ -13,24 +13,126 @@ import WriteBlog from './pages/blog/WriteBlog.vue';
 import FormUi from './components/layout/FormUi.vue';
 import BlogView from './pages/blog/BlogView.vue';
 import MyProfile from './pages/profile/MyProfile.vue';
+import store from './store';
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', component: HomePage },
-    { path: '/login', component: LoginUser },
+    { path: '/login', name: 'login', component: LoginUser },
     { path: '/register', component: RegisterUser },
-    { path: '/my-blogs', component: MyBlogs },
-    { path: '/technology', component: TechPage },
-    { path: '/gaming', component: GamingPage },
-    { path: '/entertainment', component: EntertainmentPage },
-    { path: '/products', component: ProductsPage },
+    {
+      path: '/my-blogs',
+      component: MyBlogs,
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.get.username) {
+          return next({
+            name: 'login',
+          });
+        }
+        next();
+      },
+    },
+    {
+      path: '/technology',
+      component: TechPage,
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.get.username) {
+          return next({
+            name: 'login',
+          });
+        }
+        next();
+      },
+    },
+    {
+      path: '/gaming',
+      component: GamingPage,
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.get.username) {
+          return next({
+            name: 'login',
+          });
+        }
+        next();
+      },
+    },
+    {
+      path: '/entertainment',
+      component: EntertainmentPage,
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.get.username) {
+          return next({
+            name: 'login',
+          });
+        }
+        next();
+      },
+    },
+    {
+      path: '/products',
+      component: ProductsPage,
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.get.username) {
+          return next({
+            name: 'login',
+          });
+        }
+        next();
+      },
+    },
     { path: '/reviews', component: ReviewsPage },
-    { path: '/others', component: OthersPage },
-    { path: '/write-blog', component: WriteBlog },
+    {
+      path: '/others',
+      component: OthersPage,
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.get.username) {
+          return next({
+            name: 'login',
+          });
+        }
+        next();
+      },
+    },
+    {
+      path: '/write-blog',
+      component: WriteBlog,
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.get.username) {
+          return next({
+            name: 'login',
+          });
+        }
+        next();
+      },
+    },
     { path: '/form', component: FormUi },
-    { path: '/blogs/:blogId', component: BlogView, props: true },
-    { path: '/profile', component: MyProfile, props: true },
+    {
+      path: '/blogs/:blogId',
+      component: BlogView,
+      props: true,
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.get.username) {
+          return next({
+            name: 'login',
+          });
+        }
+        next();
+      },
+    },
+    {
+      path: '/profile',
+      component: MyProfile,
+      props: true,
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.get.username) {
+          return next({
+            name: 'login',
+          });
+        }
+        next();
+      },
+    },
   ],
   linkActiveClass: 'active', // active class for non-exact links.
   linkExactActiveClass: 'active', // active class for *exact* links.

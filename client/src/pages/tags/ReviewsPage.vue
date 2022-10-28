@@ -1,5 +1,5 @@
 <template>
-  <TheHeader></TheHeader>
+  <TheHeader :user="username" :photo="photo"></TheHeader>
   <ModifiedNav></ModifiedNav>
   <div class="section-2-wrapper mt-12">
     <div class="section-2-purple"></div>
@@ -29,11 +29,6 @@ import TheHeader from '../../components/layout/TheHeader.vue';
 import TheFooter from '../../components/layout/TheFooter.vue';
 import ModifiedNav from '../../components/layout/ModifiedNav.vue';
 export default {
-  beforeCreate() {
-    if (this.$store.state.username === '') {
-      this.$router.push('/login');
-    }
-  },
   created() {
     axios
       .get('http://localhost:5000/api/blogs/tags/reviews')
@@ -44,10 +39,25 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+    axios
+      .get('http://localhost:5000/api/users/me')
+      .then((res) => {
+        //console.log(this.$store.state.username);
+        this.username = res.data.data[0].username;
+        if (res.data.data[0].user_photo) {
+          this.photo = res.data.data[0].user_photo;
+        }
+        //console.log(this.username);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   data() {
     return {
       blogs: [],
+      username: '',
+      photo: null,
     };
   },
   methods: {},

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <the-header></the-header>
+    <the-header :user="username" :photo="user_photo"></the-header>
     <div class="profile">
       <div class="settings">
         <div class="settings-holder">
@@ -102,11 +102,6 @@
 import TheHeader from '../../components/layout/TheHeader.vue';
 import axios from 'axios';
 export default {
-  beforeCreate() {
-    if (this.$store.state.username === '') {
-      this.$router.push('/login');
-    }
-  },
   created() {
     axios
       .get('http://localhost:5000/api/users/me')
@@ -132,6 +127,7 @@ export default {
       email: '',
       password: '',
       backup: '',
+      photo: null,
     };
   },
   methods: {
@@ -140,7 +136,8 @@ export default {
         .get(`http://localhost:5000/api/users/logout`)
         .then((res) => {
           console.log(res);
-          this.$store.commit('change', '');
+          //this.$store.commit('change', '');
+          sessionStorage.clear();
           this.$router.push('/login');
         })
         .catch((err) => {

@@ -53,6 +53,7 @@
 <script>
 import axios from 'axios';
 import FormUi from '../../components/layout/FormUi.vue';
+//import { mapActions } from 'vuex';
 
 export default {
   data() {
@@ -66,10 +67,30 @@ export default {
     };
   },
   methods: {
+    // ...mapActions({
+    //   signIn: 'auth/signIn',
+    // }),
     loginUser() {
+      // this.signIn(this.user)
+      //   .then(() => {
+      //     this.$router.push('/');
+      //   })
+      //   .catch((err) => {
+      //     console.log(err.response.data.message);
+      //     if (err.response.data.message === 'Invalid username') {
+      //       this.wrongUser = true;
+      //     }
+      //     if (err.response.data.message === 'Wrong Password') {
+      //       this.wrongPass = true;
+      //     }
+      //   });
+
       axios
         .post('http://localhost:5000/api/users/login', this.user)
-        .then(() => {
+        .then((res) => {
+          console.log(res);
+          this.$store.commit('change', this.user.username);
+          //this.$store.commit('changePhoto', this.user.username);
           this.$router.push('/');
         })
         .catch((err) => {
