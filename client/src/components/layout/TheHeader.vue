@@ -20,7 +20,7 @@
       />
       <div class="dropdown" :style="{ display: dd ? 'table' : 'none' }">
         <div class="dropdown-content">
-          <p>Signed in as {{ user }}</p>
+          <p>Signed in as {{ $store.state.username }}</p>
           <router-link to="/profile">Profile</router-link>
           <router-link to="/my-blogs">My-Blogs</router-link>
         </div>

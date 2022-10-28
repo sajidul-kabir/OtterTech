@@ -57,6 +57,11 @@ import Highlight from '@tiptap/extension-highlight';
 
 export default {
   components: { TheHeader, TheFooter, EditorContent, MenuItem },
+  beforeCreate() {
+    if (this.$store.state.username === '') {
+      this.$router.push('/login');
+    }
+  },
 
   mounted() {
     this.editor = new Editor({

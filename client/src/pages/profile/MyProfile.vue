@@ -102,6 +102,11 @@
 import TheHeader from '../../components/layout/TheHeader.vue';
 import axios from 'axios';
 export default {
+  beforeCreate() {
+    if (this.$store.state.username === '') {
+      this.$router.push('/login');
+    }
+  },
   created() {
     axios
       .get('http://localhost:5000/api/users/me')
@@ -135,6 +140,7 @@ export default {
         .get(`http://localhost:5000/api/users/logout`)
         .then((res) => {
           console.log(res);
+          this.$store.commit('change', '');
           this.$router.push('/login');
         })
         .catch((err) => {

@@ -13,6 +13,7 @@ import BlogList from '../../components/BlogList.vue';
 import TheHeader from '../../components/layout/TheHeader.vue';
 import PopularBlogs from '../../components/PopularBlogs.vue';
 import TheFooter from '../../components/layout/TheFooter.vue';
+//import store from '../../store';
 
 axios.defaults.withCredentials = true;
 
@@ -24,12 +25,17 @@ export default {
         if (res.data.message === 'NOT LOGGED IN') {
           this.$router.push('/login');
         } else {
-          console.log(res.data.data[0].username);
+          //console.log(res.data.data[0].username);
           if (res.data.data[0].user_photo) {
             this.photo = res.data.data[0].user_photo;
           }
-          this.username = res.data.data[0].username;
-          window.localStorage.setItem('username', this.username);
+          // this.username = res.data.data[0].username;
+          // window.localStorage.setItem('username', this.username);
+
+          //store.state.username = this.username;
+
+          this.$store.commit('change', res.data.data[0].username);
+          console.log(this.$store.state.username);
         }
       })
       .catch((err) => {

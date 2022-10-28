@@ -23,6 +23,7 @@
     "vue-material": "^1.0.0-beta-15",
     "vue-router": "^4.1.0",
     "vuetify": "^3.0.0-beta.0",
+    "vuex": "^4.1.0",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {

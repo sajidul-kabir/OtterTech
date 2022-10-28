@@ -55,6 +55,11 @@ import TheHeader from '../../components/layout/TheHeader.vue';
 import TheFooter from '../../components/layout/TheFooter.vue';
 export default {
   props: ['blogId'],
+  beforeCreate() {
+    if (this.$store.state.username === '') {
+      this.$router.push('/login');
+    }
+  },
   created() {
     const id = this.$route.params.blogId;
     axios

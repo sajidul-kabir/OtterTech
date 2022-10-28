@@ -29,6 +29,11 @@ import TheHeader from '../../components/layout/TheHeader.vue';
 import TheFooter from '../../components/layout/TheFooter.vue';
 import ModifiedNav from '../../components/layout/ModifiedNav.vue';
 export default {
+  beforeCreate() {
+    if (this.$store.state.username === '') {
+      this.$router.push('/login');
+    }
+  },
   created() {
     axios
       .get('http://localhost:5000/api/blogs/tags/technology')
@@ -43,6 +48,7 @@ export default {
   data() {
     return {
       blogs: [],
+      username: '',
     };
   },
   methods: {},
