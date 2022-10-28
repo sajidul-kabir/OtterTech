@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from './pages/home/HomePage.vue';
 import LoginUser from './pages/auth/LoginUser.vue';
 import RegisterUser from './pages/auth/RegisterUser.vue';
+import MyBlogs from './pages/profile/MyBlogs.vue';
 import TechPage from './pages/tags/TechPage.vue';
 import GamingPage from './pages/tags/GamingPage.vue';
 import EntertainmentPage from './pages/tags/EntertainmentPage.vue';
@@ -19,6 +20,7 @@ const router = createRouter({
     { path: '/', component: HomePage },
     { path: '/login', component: LoginUser },
     { path: '/register', component: RegisterUser },
+    { path: '/my-blogs', component: MyBlogs },
     { path: '/technology', component: TechPage },
     { path: '/gaming', component: GamingPage },
     { path: '/entertainment', component: EntertainmentPage },

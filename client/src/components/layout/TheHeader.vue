@@ -11,7 +11,7 @@
         class="header-icons--img"
         :style="{ backgroundImage: `url('${path}${photo}')` }"
       ></div>
-      <div v-else class="header-icons--profile">A</div>
+      <div v-else class="header-icons--profile">{{ initial[0] }}</div>
       <img
         class="header-dd"
         src="/assets/615-6156460_grey-triangle-no-background-png-download-arrow-transparent-removebg-preview.png"
@@ -22,8 +22,7 @@
         <div class="dropdown-content">
           <p>Signed in as {{ user }}</p>
           <router-link to="/profile">Profile</router-link>
-          <a href="#">My-Blogs</a>
-          <a href="#">Favourites</a>
+          <router-link to="/my-blogs">My-Blogs</router-link>
         </div>
       </div>
     </div>
@@ -33,12 +32,14 @@
 <script>
 export default {
   props: ['user', 'photo'],
+  created() {
+    this.initial = window.localStorage.getItem('username');
+  },
   data() {
     return {
-      initial: this.user,
+      initial: '',
       dd: false,
       path: 'http://localhost:5000/',
-      final: this.path + this.photo,
     };
   },
   methods: {
@@ -107,7 +108,7 @@ header img:hover {
 }
 .dropdown {
   display: none;
-  height: 180px;
+  height: 147px;
   background-color: #eeeeee;
   position: absolute;
   min-width: 160px;
