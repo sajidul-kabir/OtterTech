@@ -18,7 +18,18 @@ import store from './store';
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/', component: HomePage },
+    {
+      path: '/',
+      component: HomePage,
+      beforeEnter: (to, from, next) => {
+        if (!store.getters.get.username) {
+          return next({
+            name: 'login',
+          });
+        }
+        next();
+      },
+    },
     { path: '/login', name: 'login', component: LoginUser },
     { path: '/register', component: RegisterUser },
     {
