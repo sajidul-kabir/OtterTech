@@ -1,53 +1,62 @@
 <template>
-  <form-ui>
-    <template v-slot:header>
-      <h2>Sign in & Join the Community</h2>
-    </template>
-    <form class="body-container-form__form" @submit.prevent="loginUser">
-      <div class="user-box">
-        <input
-          :style="[
-            { borderBottom: wrongUser ? '1px solid red' : '' },
-            { color: wrongUser ? 'red' : '' },
-          ]"
-          type="text"
-          name=""
-          required=""
-          v-model="user.username"
-          @blur="validateUser"
-        />
-        <label :style="{ color: wrongUser ? 'red' : '' }">Username</label>
-        <div v-if="wrongUser">
-          <img class="invalidImg" src="/assets/invalid.png" alt="" />
-          <p class="invalid">Invalid Username</p>
+  <div>
+    <div class="loading" style="background-color: black" v-if="loading">
+      <v-progress-linear
+        style="height: 1px"
+        indeterminate
+        color="#eeeeee"
+      ></v-progress-linear>
+    </div>
+    <form-ui>
+      <template v-slot:header>
+        <h2>Sign in & Join the Community</h2>
+      </template>
+      <form class="body-container-form__form" @submit.prevent="loginUser">
+        <div class="user-box">
+          <input
+            :style="[
+              { borderBottom: wrongUser ? '1px solid red' : '' },
+              { color: wrongUser ? 'red' : '' },
+            ]"
+            type="text"
+            name=""
+            required=""
+            v-model="user.username"
+            @blur="validateUser"
+          />
+          <label :style="{ color: wrongUser ? 'red' : '' }">Username</label>
+          <div v-if="wrongUser">
+            <img class="invalidImg" src="/assets/invalid.png" alt="" />
+            <p class="invalid">Invalid Username</p>
+          </div>
         </div>
-      </div>
-      <div class="user-box">
-        <input
-          :style="[
-            { borderBottom: wrongPass ? '1px solid red' : '' },
-            { color: wrongPass ? 'red' : '' },
-          ]"
-          type="password"
-          name=""
-          required=""
-          v-model="user.password"
-          @blur="validatePass"
-        />
-        <label :style="{ color: wrongPass ? 'red' : '' }">Password</label>
-        <div v-if="wrongPass">
-          <img class="invalidImg" src="/assets/invalid.png" alt="" />
-          <p class="invalid">Wrong Password</p>
+        <div class="user-box">
+          <input
+            :style="[
+              { borderBottom: wrongPass ? '1px solid red' : '' },
+              { color: wrongPass ? 'red' : '' },
+            ]"
+            type="password"
+            name=""
+            required=""
+            v-model="user.password"
+            @blur="validatePass"
+          />
+          <label :style="{ color: wrongPass ? 'red' : '' }">Password</label>
+          <div v-if="wrongPass">
+            <img class="invalidImg" src="/assets/invalid.png" alt="" />
+            <p class="invalid">Wrong Password</p>
+          </div>
         </div>
-      </div>
 
-      <button>Sign in</button>
-      <div class="body-container-form__form--text">
-        <p>Don't have an Account ?</p>
-        <router-link to="/register">Register</router-link>
-      </div>
-    </form>
-  </form-ui>
+        <button>Sign in</button>
+        <div class="body-container-form__form--text">
+          <p>Don't have an Account ?</p>
+          <router-link to="/register">Register</router-link>
+        </div>
+      </form>
+    </form-ui>
+  </div>
 </template>
 
 <script>
@@ -62,6 +71,7 @@ export default {
         username: '',
         password: '',
       },
+      loading: false,
       wrongPass: false,
       wrongUser: false,
     };
@@ -71,6 +81,7 @@ export default {
     //   signIn: 'auth/signIn',
     // }),
     loginUser() {
+      this.loading = true;
       // this.signIn(this.user)
       //   .then(() => {
       //     this.$router.push('/');
@@ -89,11 +100,13 @@ export default {
         .post('http://localhost:5000/api/users/login', this.user)
         .then((res) => {
           console.log(res);
+          this.loading = false;
           this.$store.commit('change', this.user.username);
           //this.$store.commit('changePhoto', this.user.username);
           this.$router.push('/');
         })
         .catch((err) => {
+          this.loading = false;
           console.log(err.response.data.message);
           if (err.response.data.message === 'Invalid username') {
             this.wrongUser = true;

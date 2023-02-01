@@ -51,7 +51,10 @@
               </div>
             </div>
             <div class="my-2">
-              <v-btn class="profile-delete-picture pt-3 pb-7">
+              <v-btn
+                class="profile-delete-picture pt-3 pb-7"
+                @click="removePhoto"
+              >
                 Delete Picture
               </v-btn>
             </div>
@@ -167,6 +170,7 @@ export default {
           : 'http://localhost:5000/' + this.user_photo;
       return photo;
     },
+    removePhoto() {},
     profileUpdate() {
       const fd = new FormData();
 
